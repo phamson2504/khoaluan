@@ -1,5 +1,6 @@
 package com.project.khoaluan.entity;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import com.project.khoaluan.model.Rap;
@@ -7,7 +8,7 @@ import com.project.khoaluan.model.Rap;
 public class ChiTietSuat {
 	private int id;
 	private String gioBatDau;
-	private String ngayChieu;
+	private LocalDate ngayChieu;
 	private double giaVe;
 	private int idRap;
 	private String tenRap;
@@ -30,10 +31,11 @@ public class ChiTietSuat {
 	public void setGioBatDau(String gioBatDau) {
 		this.gioBatDau = gioBatDau;
 	}
-	public String getNgayChieu() {
+	
+	public LocalDate getNgayChieu() {
 		return ngayChieu;
 	}
-	public void setNgayChieu(String ngayChieu) {
+	public void setNgayChieu(LocalDate ngayChieu) {
 		this.ngayChieu = ngayChieu;
 	}
 	public double getGiaVe() {
@@ -80,7 +82,7 @@ public class ChiTietSuat {
 	}
 	
 	
-	public ChiTietSuat(int id, String gioBatDau, String ngayChieu, double giaVe, int idRap,
+	public ChiTietSuat(int id, String gioBatDau, LocalDate ngayChieu, double giaVe, int idRap,
 			String tenRap, int idPhong, int idPhim, String tenPhim, String theLoai) {
 		super();
 		this.id = id;

@@ -1,12 +1,11 @@
 
 let date = new Date();
 let date1 = new Date();
-$(document).ready(function(){
+
 	date.setMonth(date.getMonth()+1);
-	 console.log(number);
-	let ngay2 = document.getElementById("hn").value;
-	let haha = new Date(ngay2);
-	haha.setMonth(haha.getMonth()+1);
+	
+
+	
 	var ngay1 = `${haha.getDate()+"/"+haha.getMonth()+"/"+haha.getFullYear()}`;
 	console.log(ngay1);
   	for(var i =0 ; i<10 ; i++){
@@ -64,6 +63,6 @@ $(document).ready(function(){
 			alert(conceptName);
 		})
 	
-});
+
 	
 	

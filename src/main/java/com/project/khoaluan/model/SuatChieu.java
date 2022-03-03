@@ -1,5 +1,7 @@
 package com.project.khoaluan.model;
 
+import java.time.LocalDate;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,7 +22,7 @@ public class SuatChieu {
     @Column(name = "id", nullable = false)
     private int id;
 	private String gioBatDau;
-	private String ngayChieu;
+	private LocalDate ngayChieu;
 	private double giaVe;
 	
 	@ManyToOne
@@ -44,10 +46,11 @@ public class SuatChieu {
 	public void setGioBatDau(String gioBatDau) {
 		this.gioBatDau = gioBatDau;
 	}
-	public String getNgayChieu() {
+	
+	public LocalDate getNgayChieu() {
 		return ngayChieu;
 	}
-	public void setNgayChieu(String ngayChieu) {
+	public void setNgayChieu(LocalDate ngayChieu) {
 		this.ngayChieu = ngayChieu;
 	}
 	public double getGiaVe() {
@@ -74,8 +77,9 @@ public class SuatChieu {
 		this.theloai = theloai;
 	}
 	
-	public SuatChieu(int id, String gioBatDau, String ngayChieu, double giaVe, Phim phim,
-			TheLoai theloai) {
+	
+	
+	public SuatChieu(int id, String gioBatDau, LocalDate ngayChieu, double giaVe, Phim phim, TheLoai theloai) {
 		super();
 		this.id = id;
 		this.gioBatDau = gioBatDau;
@@ -86,8 +90,12 @@ public class SuatChieu {
 	}
 	@Override
 	public String toString() {
-		return "SuatChieu [id=" + id + ", gioBatDau=" + gioBatDau + ", ngayChieu=" + ngayChieu + ", giaVe=" + giaVe + ", phim=" + phim + ", theloai=" + theloai + "]";
+		return "SuatChieu [id=" + id + ", gioBatDau=" + gioBatDau + ", ngayChieu=" + ngayChieu + ", giaVe=" + giaVe
+				+ ", phim=" + phim + ", theloai=" + theloai + "]";
 	}
+	
+	
+	
 	
 	
 	

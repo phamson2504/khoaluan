@@ -9,7 +9,7 @@ import com.project.khoaluan.model.GheNgoi;
 import com.project.khoaluan.model.Phong;
 
 @Service
-public class GheNgoiDetailsServiceImpl {
+public class GheNgoiDetailsServiceImpl implements GheNgoiDetailsService{
 	@Autowired
 	GheNgoiRepository gheNgoiRepository;
 	@Autowired

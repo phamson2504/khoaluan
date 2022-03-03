@@ -15,7 +15,7 @@
           <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
        
         <link href="<c:url value="/resources/css/admin.css"/>" rel="stylesheet" type="text/css">
-      	  
+      	  <script type="text/javascript" src="<c:url value="/resources/js/admin.js"/>"></script>
   		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     	 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
@@ -30,7 +30,70 @@
         <title>Admin</title>
     </head>
     <script type="text/javascript">
-  
+    $(function() {
+    	
+ 		$("#datepicker").datepicker({ 
+ 			format: 'dd/mm/yyyy',
+			autoclose: true,         
+			todayHighlight: true 
+		}).datepicker();
+ 		$("#datepicker2").datepicker({ 
+ 			format: 'dd/mm/yyyy',
+			autoclose: true,         
+			todayHighlight: true 
+		}).datepicker();
+ 	});
+ 	
+
+	
+let ncc=null;
+$(document).ready(function() {
+var list = ${i};
+for(let i =0 ; i <list.length ;i++){
+	 $('#clickmodal'+list[i]+'').click(function() {
+    		$("#idPhim").val($('#clickmodal'+list[i]+'').val());
+    		ncc = $('#ncc'+list[i]).val()
+    	
+     });
+	 
+}
+
+$(document).on("click","#addNew",function() {
+	
+	var idRoom = $('#idphong').val();
+	var idPhim = $('#idPhim').val();
+	var idTheLoai = $('#idTheLoai').find(":selected").val();
+	var ngayChieu = $('#datepicker').val();
+	var ngayKetThuc = $('#datepicker2').val();
+	var gioBatDau= $('#gioBatDau').val();
+	var giaVe= $('#giaVe').val();
+	var newdate = ngayChieu.split("/");
+	let ngay = newdate[0];let thang = newdate[1];let nam = newdate[2]
+	
+	var newdate2 = ncc.split("-");
+	let ngay2 = newdate2[2];let thang2 = newdate2[1];let nam2 = newdate2[0]
+	if(new Date(nam2,thang2-1,ngay2).getTime() <= new Date(nam,thang-1,ngay).getTime()){
+		$.ajax({
+			type: "POST",
+			contentType: "application/json; charset=utf-8",
+			url: "/admin/luuSuatChieu?idTheLoai="+idTheLoai+"&idRoom="+idRoom+"&idPhim="+idPhim+"",
+			data: JSON.stringify({'gioBatDau': gioBatDau,'ngayChieu': ngayChieu,'giaVe': giaVe}),
+			cache: false,
+			success: function(result) {
+				alert("thanh cong");
+			},
+			error: function(err) {
+				console.log(err)
+				alert(err);
+			}
+		});
+	}else{
+		alert("Nhập lỗi ngày nhập lại")
+	}
+});
+   
+});
+	
     </script>
     <body>
    		<div class="dash">
@@ -81,6 +144,7 @@
 			                    <td><c:out value="${p.id}"/></td>
 			                    <td><c:out value="${p.tenPhim}"/></td>
 			                    <td><img src="${p.hinhAnh}"  width="100" height="150"></td>
+			                     <input id="ncc${p.id}" type="hidden" class="form-control" value="${p.ngayCongChieu}"/>
 			                    <td><c:out value="${p.ngayCongChieu}"/></td>
 			                    <td><c:out value="${p.thoiLuong}"/></td>
 			                    <td><c:out value="${p.theLoai}"/></td>
@@ -141,12 +205,7 @@
 			                         			<input id="datepicker" class="form-control" type="text" ></span>        
                     					</div> 
 								    </div>
-								    <div class="form-group row">
-										    <label for="formGroupExampleInput" class="col-sm-3 col-form-label">Ngày Kết Thúc</label>
-										    <div class="col-sm-9">
-			                         			<input id="datepicker2" class="form-control" type="text" ></span>        
-                    					</div> 
-								    </div>
+								    
 								    <div class="form-group row">
 								    	 <label for="formGroupExampleInput" class="col-sm-3 col-form-label">Giờ Chiếu</label>
 										    <div class="col-sm-9">

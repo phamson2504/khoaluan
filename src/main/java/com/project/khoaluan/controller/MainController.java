@@ -3,7 +3,11 @@ package com.project.khoaluan.controller;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
 import java.util.UUID;
 
 import javax.mail.MessagingException;
@@ -22,13 +26,23 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.project.khoaluan.dao.GheNgoiRepository;
 import com.project.khoaluan.dao.NguoiDungRepository;
+import com.project.khoaluan.model.GheNgoi;
+import com.project.khoaluan.model.KhuVuc;
 import com.project.khoaluan.model.NguoiDung;
+import com.project.khoaluan.model.Phim;
+import com.project.khoaluan.model.TheLoai;
+import com.project.khoaluan.service.KhuVucDetailsServiceImpl;
 import com.project.khoaluan.service.NguoiDungDetailsServiceImpl;
+import com.project.khoaluan.service.PhimDetailsServicelmpl;
+import com.project.khoaluan.service.SuatChieuDetailsServiceImpl;
+import com.project.khoaluan.service.TheLoaiDetailsServiceImpl;
 
 @Controller  
 public class MainController {
@@ -36,18 +50,56 @@ public class MainController {
 	@Autowired
 	NguoiDungDetailsServiceImpl ndDetailsServiceImpl;
 	@Autowired
+	PhimDetailsServicelmpl phimDetailsServicelmpl;
+	@Autowired
+	KhuVucDetailsServiceImpl kvDetailsServiceImpl;
+	@Autowired
+	TheLoaiDetailsServiceImpl tlDetailsServiceImpl;
+	@Autowired
+	SuatChieuDetailsServiceImpl suatChieuDetailsServiceImpl;
+	@Autowired
 	public JavaMailSender emailSender;
 	
 	@RequestMapping("/")
-    public String index(HttpSession session) {
+    public String index(HttpSession session,Model model) {
 		org.springframework.security.core.Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String username = auth.getName();
 		Collection<SimpleGrantedAuthority> authorities = (Collection<SimpleGrantedAuthority>)    SecurityContextHolder.getContext().getAuthentication().getAuthorities();
-		System.out.println(authorities.size());
+		if (username.equals("anonymousUser")) {
+			username=null;
+		}
 		session.setAttribute("username", username);
+		session.setAttribute("role", authorities.size());
+		LocalDate date = LocalDate.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		String formattedString = date.format(formatter);
+		System.out.println(username);
+		List<Phim> phims = phimDetailsServicelmpl.loadPhim(date);
+		model.addAttribute("phim",phims);
+		model.addAttribute("date",formattedString);
         return "index";
     }
+	@RequestMapping("/phimsapchieu")
 	
+	 public String phimsapchieu (Model model) {
+		LocalDate date = LocalDate.now();
+		List<Phim> phims = phimDetailsServicelmpl.phimSapChieu(date);
+		model.addAttribute("phim",phims);
+		return "phimSapChieu";
+	}
+	@RequestMapping("/kiemtrasuat")
+	
+	 public String kiemtrasuat (@RequestParam("idPhim") int idPhim) {
+		LocalDate date = LocalDate.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		LocalDate ngayChieuGanNhat = suatChieuDetailsServiceImpl.ngayChieuGannhat(date, idPhim);
+		String ngaychieu = ngayChieuGanNhat.format(formatter);
+		if (ngayChieuGanNhat!=null) {
+			 return "redirect:/datve/lichPhim?idPhim="+idPhim+"&ngay="+ngaychieu+"";
+		}else {
+			return "redirect:/phimsapchieu";
+		}
+	}
 	 @RequestMapping("/login")   
 	    public String getLogin() {
 	        return "login";
@@ -153,8 +205,34 @@ public class MainController {
 			}
 		   
 	    }
-	 @GetMapping("/datve")  
-	    public String datve() {
+	@Autowired
+	GheNgoiRepository gheNgoiRepository;
+	 @GetMapping("/datve")
+	 
+	    public String datve(Model model) {
+		 List<GheNgoi> gheNgois= gheNgoiRepository.gheNgoiCuaPhong();
+		
+			model.addAttribute("h", gheNgois);
 	        return "datve";
 	    }
+	 @GetMapping("/vitridatve")
+	 @ResponseBody
+	 public List<GheNgoi> vitridatve(HttpSession session,@RequestParam(value = "vitri") int[] vitri) {
+		 List<GheNgoi> gheNgois= gheNgoiRepository.gheNgoiCuaPhong();
+		 List<GheNgoi> gheNgoi1 = new ArrayList<GheNgoi>();
+		 for (int i = 0; i < gheNgois.size(); i++) {
+			 for (int j = 0; j < vitri.length; j++) {
+				if (vitri[j]==i) {
+					gheNgoi1.add(gheNgois.get(i));
+					
+				}
+				
+			}
+			
+		}
+		 session.setAttribute("gheNgoi", gheNgoi1);
+		 return gheNgoi1;
+	 }
+	 
+	
 }

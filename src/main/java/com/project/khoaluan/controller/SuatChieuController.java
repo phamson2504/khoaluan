@@ -1,5 +1,7 @@
 package com.project.khoaluan.controller;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.project.khoaluan.entity.ChiTietSuat;
+import com.project.khoaluan.entity.SuatChieuDOT;
 import com.project.khoaluan.model.SuatChieu;
 import com.project.khoaluan.service.PhimDetailsServicelmpl;
 import com.project.khoaluan.service.SuatChieuDetailsServiceImpl;
@@ -26,11 +29,16 @@ public class SuatChieuController {
 	@Autowired
 	TheLoaiDetailsServiceImpl theLoaiDetailsServiceImpl;
 	 @PostMapping("/luuSuatChieu")   
-	    public String luuSuatChieu(@RequestBody SuatChieu suat,@RequestParam("idTheLoai") int idTheLoai,
+	    public String luuSuatChieu(@RequestBody SuatChieuDOT suatDOT,@RequestParam("idTheLoai") int idTheLoai,
 	    	@RequestParam("idRoom") int idRoom,@RequestParam("idPhim") int idPhim) {
-		 	suat.setPhim(detailsServicelmpl.getPhimId(idPhim));
-		 	suat.setTheloai(theLoaiDetailsServiceImpl.findTheLoai(idTheLoai));
-		 	suatChieuDetailsServiceImpl.AddSuatChieu(suat, idTheLoai, idRoom);
+		 	suatDOT.setPhim(detailsServicelmpl.getPhimId(idPhim));
+		 	suatDOT.setTheloai(theLoaiDetailsServiceImpl.findTheLoai(idTheLoai));
+
+		 	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		 	SuatChieu suatChieu = new SuatChieu(suatDOT.getId(), suatDOT.getGioBatDau(), LocalDate.parse(suatDOT.getNgayChieu(), formatter), suatDOT.getGiaVe(), suatDOT.getPhim(), suatDOT.getTheloai());
+		 	suatChieuDetailsServiceImpl.AddSuatChieu(suatChieu, idTheLoai, idRoom);
+		 	System.out.println("dsdadsdasdsdsdsdsdsd"+suatChieu);
+		 	
 		 return "redirect:/admin/phim";
 	    }
 		@RequestMapping("/suatTheoPhim") 

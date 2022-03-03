@@ -1,5 +1,6 @@
 package com.project.khoaluan.service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,7 @@ import com.project.khoaluan.dao.TheLoaiRepository;
 import com.project.khoaluan.model.TheLoai;
 
 @Service
-public class TheLoaiDetailsServiceImpl {
+public class TheLoaiDetailsServiceImpl implements TheLoaiDetailsService{
 	@Autowired
 	TheLoaiRepository theLoaiRepository;
 	public void addTheLoai(TheLoai theLoai) {
@@ -23,5 +24,15 @@ public class TheLoaiDetailsServiceImpl {
 	}
 	public List<TheLoai> getTheLoais(){
 		return (List<TheLoai>) theLoaiRepository.findAll();
+	}
+	@Override
+	public List<TheLoai> TheLoaiCuaPhim(int idPhim, LocalDate startDate,int idKv) {
+		
+		return theLoaiRepository.TheLoaiCuaPhim(idPhim, startDate,idKv);
+	}
+	@Override
+	public List<TheLoai> TheLoaiCuaRap(LocalDate startDate, int idRap) {
+		// TODO Auto-generated method stub
+		return theLoaiRepository.TheLoaiCuaRap(startDate, idRap);
 	}
 }

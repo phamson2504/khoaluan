@@ -1,5 +1,6 @@
 package com.project.khoaluan.service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ import com.project.khoaluan.model.SuatChieu;
 import com.project.khoaluan.model.TheLoai;
 
 @Service
-public class SuatChieuDetailsServiceImpl {
+public class SuatChieuDetailsServiceImpl implements SuatChieuDetailsService{
 	@Autowired
 	SuatChieuRepository suatChieuRepository;
 	@Autowired
@@ -39,6 +40,21 @@ public class SuatChieuDetailsServiceImpl {
 	}
 	public void XoaSuatChieu(int idSc) {
 		suatChieuRepository.deleteById(idSc);
+	}
+	@Override
+	public List<ChiTietSuat> SuatChieuCuaPhim(int idPhim, LocalDate startDate, int idKV, int idTL) {
+		// TODO Auto-generated method stub
+		return suatChieuRepository.SuatChieuCuaPhim(idPhim, startDate, idKV, idTL);
+	}
+	@Override
+	public LocalDate ngayChieuGannhat(LocalDate startDate, int idPhim) {
+		// TODO Auto-generated method stub
+		return suatChieuRepository.ngayChieuGannhat(startDate, idPhim);
+	}
+	@Override
+	public List<ChiTietSuat> SuatChieuCuaRap(int idRap, LocalDate startDate, int idTL) {
+		// TODO Auto-generated method stub
+		return suatChieuRepository.SuatChieuCuaRap(idRap, startDate, idTL);
 	}
 
 }

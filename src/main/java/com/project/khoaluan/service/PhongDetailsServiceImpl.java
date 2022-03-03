@@ -9,7 +9,7 @@ import com.project.khoaluan.model.Phong;
 import com.project.khoaluan.model.Rap;
 
 @Service
-public class PhongDetailsServiceImpl {
+public class PhongDetailsServiceImpl implements PhongDetailsService{
 	@Autowired
 	PhongRepository phongRepository;
 	@Autowired

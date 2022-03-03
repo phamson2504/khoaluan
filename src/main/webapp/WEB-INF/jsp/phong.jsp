@@ -145,9 +145,7 @@
 			                   	<td><c:out value="${p.hang}"/></td>
 			                   	<td><c:out value="${p.cot}"/></td>
 			                    <td>
-			                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal${p.id}">
-					 				 Sửa Phòng
-								</button>&ensp;
+			                    
 								<a class="btn btn-danger" href="/admin/xoaPhong?idPhong=${p.id}&idRap=${idRap}&idKhuVuc=${idKhuVuc}">
 								  Xóa Phòng
 								</a>

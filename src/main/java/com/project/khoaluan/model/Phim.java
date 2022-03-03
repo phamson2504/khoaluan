@@ -1,6 +1,7 @@
 package com.project.khoaluan.model;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -17,6 +18,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Nationalized;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 public class Phim implements Serializable{
@@ -40,8 +42,8 @@ public class Phim implements Serializable{
 		private	String trailer;
 		
 		private String hinhAnh;
-		
-		private String ngayCongChieu;
+		@DateTimeFormat(pattern = "dd/MM/yyyy")
+		private LocalDate ngayCongChieu;
 		@OneToMany(mappedBy = "phim", cascade = CascadeType.ALL)
 	     private List<SuatChieu> suats;
 	
@@ -119,21 +121,13 @@ public class Phim implements Serializable{
 		public void setHinhAnh(String hinhAnh) {
 			this.hinhAnh = hinhAnh;
 		}
-
-		
-		
-
-		public String getNgayCongChieu() {
+		public LocalDate getNgayCongChieu() {
 			return ngayCongChieu;
 		}
 
-		public void setNgayCongChieu(String ngayCongChieu) {
+		public void setNgayCongChieu(LocalDate ngayCongChieu) {
 			this.ngayCongChieu = ngayCongChieu;
 		}
-
-
-		
-		
 
 		public Phim() {
 			super();
@@ -141,7 +135,7 @@ public class Phim implements Serializable{
 		}
 
 		public Phim(int id, String tenPhim, int thoiLuong, String moTa, String theLoai, String daoDien, String dienVien,
-				String trailer, String hinhAnh, String ngayCongChieu) {
+				String trailer, String hinhAnh, LocalDate ngayCongChieu) {
 			super();
 			this.id = id;
 			this.tenPhim = tenPhim;

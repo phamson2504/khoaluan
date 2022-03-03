@@ -22,6 +22,35 @@
         <title>Đăng Nhập</title>
     </head>
     <body>
+    	<div class="col-md-12 navbar bg-dark">
+                    <a href="index.html" class="logo navbar-brand text-white offset-md-2">Sơn Hảo Phim</a>
+                    <nav class="navbar navbar-light bg-dark">
+                        
+                    </nav>
+                    <ul class="nav">
+                        <li class="nav-item"><a href="/" class="nav-link">Trang chủ</a></li>
+                        <c:choose>
+						    <c:when test="${sessionScope.username==null}">
+						        <li class="nav-item"><a href="/login" class="nav-link">Đăng Nhập</a></li>
+
+                        		<li class="nav-item"><a href="/showdangki" class="nav-link">Đăng Ký</a></li>
+						    </c:when>    
+						    <c:otherwise>
+						    	<li class="nav-item"><a href="/showdangki" class="nav-link">${sessionScope.username}</a></li>
+						        <li class="nav-item"><a href="/logout" class="nav-link">Đăng Xuất</a></li>
+						    </c:otherwise>
+						</c:choose>
+						<c:choose>
+						    <c:when test="${sessionScope.role==2}">
+						     	<li class="nav-item"><a href="/admin/phim" class="nav-link">Quản Lý</a></li>
+						    </c:when>    
+						</c:choose>
+                        
+                        
+                        
+
+                    </ul>
+                </div>
    		<section class="vh-100" style="background-color: #f5f5f5;">
 			  <div class="container py-5 h-100">
 			    <div class="row d-flex justify-content-center align-items-center h-100">

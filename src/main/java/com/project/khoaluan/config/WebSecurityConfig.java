@@ -14,7 +14,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	@Autowired
     private UserDetailsService userDetailsService;
@@ -30,12 +29,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
     }
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-    	http.csrf().disable()
+    	http
+    		.csrf().disable()
+    		
             .authorizeRequests()
                 .antMatchers("/showdangki","/dangki","/login","/resources/**","/date","/showqmk","/showdoiqmk"
-                		,"/quenMatKhau","/showdoiqmkNoti","/doiQuenMatKhau","/loishowdangki","/rest/**").permitAll()
+                		,"/quenMatKhau","/showdoiqmkNoti","/doiQuenMatKhau","/loishowdangki","/rest/**","/","/lichrap","/lichPhim"
+                				,"/datve/**","/vitridatve","/phimsapchieu","/kiemtrasuat").permitAll()
 //            	.antMatchers("/**").permitAll()
-                .antMatchers("/member").hasRole("MEMBER")
+                .antMatchers("/member/**").hasRole("MEMBER")
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()

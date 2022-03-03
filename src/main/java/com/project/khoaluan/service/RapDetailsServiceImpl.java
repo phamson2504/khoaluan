@@ -1,5 +1,6 @@
 package com.project.khoaluan.service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,7 @@ import com.project.khoaluan.model.KhuVuc;
 import com.project.khoaluan.model.Rap;
 
 @Service
-public class RapDetailsServiceImpl {
+public class RapDetailsServiceImpl implements RapDetailsService{
 	@Autowired
 	RapRepository rapRepository;
 	@Autowired
@@ -37,5 +38,15 @@ public class RapDetailsServiceImpl {
 	}
 	public void XoaRap(int id) {
 		rapRepository.deleteById(id);
+	}
+	@Override
+	public List<Rap> RapCuaPhim(int idPhim, LocalDate startDate, int idKV, int idTL) {
+		// TODO Auto-generated method stub
+		return rapRepository.RapCuaPhim(idPhim, startDate, idKV, idTL);
+	}
+	@Override
+	public List<Rap> RapCuaLichRap(LocalDate startDate, int idKV) {
+		// TODO Auto-generated method stub
+		return rapRepository.RapCuaLichRap(startDate, idKV);
 	}
 }

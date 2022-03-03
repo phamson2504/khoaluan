@@ -113,6 +113,9 @@ public class NguoiDungDetailsServiceImpl implements UserDetailsService{
 		  }
 		   
 	  }
+	  public void XoaNguoiDung() {
+		  ndRepository.deleteById(7);;
+	  }
 	
 
 }

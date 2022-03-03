@@ -124,7 +124,7 @@
 						
 							<div class="col-3" style="font-weight: bold; cursor: pointer;margin-top: 15px">
 								<div class="card" style="width: 100%;background-color: antiquewhite;">
-									<a href="/datve/lichPhim?idPhim=${p.id}&ngay=${date}"><img class="card-img-top"
+									<a href="/kiemtrasuat?idPhim=${p.id}"><img class="card-img-top"
 										src="${p.hinhAnh}"
 										alt="Card image cap" style="height: 400px;"></a>
 									<div class="card-body">
