@@ -16,12 +16,12 @@ public interface RapRepository extends CrudRepository<Rap, Integer>{
 				+ " FROM KhuVuc kv INNER JOIN kv.raps r INNER JOIN r.phongs p"
 				+ " INNER JOIN p.suats s INNER JOIN s.phim ph INNER JOIN s.theloai tl where ph.id=:idPhim "
 				+ "and  s.ngayChieu =:startDate and kv.id =:idKV and tl.id =:idTL")
-		List<Rap> RapCuaPhim(@Param("idPhim") int idPhim,@Param("startDate") LocalDate startDate,
+		List<Rap> rapCuaPhim(@Param("idPhim") int idPhim,@Param("startDate") LocalDate startDate,
 				@Param("idKV") int idKV,@Param("idTL") int idTL);
 		@Query(value="select DISTINCT r "
 				+ " FROM KhuVuc kv INNER JOIN kv.raps r INNER JOIN r.phongs p"
 				+ " INNER JOIN p.suats s INNER JOIN s.phim ph INNER JOIN s.theloai tl where "
 				+ "  s.ngayChieu =:startDate and kv.id =:idKV")
-		List<Rap> RapCuaLichRap(@Param("startDate") LocalDate startDate,
+		List<Rap> rapCuaLichRap(@Param("startDate") LocalDate startDate,
 				@Param("idKV") int idKV);
 }

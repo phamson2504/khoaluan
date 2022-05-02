@@ -17,9 +17,9 @@ public interface KhuVucRepository extends CrudRepository<KhuVuc, Integer>{
 			+ " FROM KhuVuc kv INNER JOIN kv.raps r INNER JOIN r.phongs p"
 			+ " INNER JOIN p.suats s INNER JOIN s.phim ph INNER JOIN s.theloai tl where ph.id=:idPhim "
 			+ "and  s.ngayChieu =:startDate")
-	List<KhuVuc> KhuVucCuaPhim(@Param("idPhim") int idPhim,@Param("startDate") LocalDate startDateL);
+	List<KhuVuc> khuVucCuaPhim(@Param("idPhim") int idPhim,@Param("startDate") LocalDate startDateL);
 	@Query(value="select DISTINCT kv "
 			+ " FROM KhuVuc kv INNER JOIN kv.raps r INNER JOIN r.phongs p"
 			+ " INNER JOIN p.suats s INNER JOIN s.phim ph INNER JOIN s.theloai tl where s.ngayChieu =:startDate")
-	List<KhuVuc> KhuVucCuaRap(@Param("startDate") LocalDate startDateL);
+	List<KhuVuc> khuVucCuaRap(@Param("startDate") LocalDate startDateL);
 }

@@ -23,7 +23,7 @@ public class RapDetailsServiceImpl implements RapDetailsService{
 		khuVuc.addRap(rap);
 		rapRepository.save(rap);
 	}
-	public void UpdateRap(Rap rap,int idKhuVuc) {
+	public void updateRap(Rap rap,int idKhuVuc) {
 		KhuVuc khuVuc = khuVucRepository.findById(idKhuVuc);
 		Rap tempRap = khuVuc.getRap(rap.getId());
 		tempRap.setDiaChi(rap.getDiaChi());
@@ -40,13 +40,13 @@ public class RapDetailsServiceImpl implements RapDetailsService{
 		rapRepository.deleteById(id);
 	}
 	@Override
-	public List<Rap> RapCuaPhim(int idPhim, LocalDate startDate, int idKV, int idTL) {
+	public List<Rap> rapCuaPhim(int idPhim, LocalDate startDate, int idKV, int idTL) {
 		// TODO Auto-generated method stub
-		return rapRepository.RapCuaPhim(idPhim, startDate, idKV, idTL);
+		return rapRepository.rapCuaPhim(idPhim, startDate, idKV, idTL);
 	}
 	@Override
-	public List<Rap> RapCuaLichRap(LocalDate startDate, int idKV) {
+	public List<Rap> rapCuaLichRap(LocalDate startDate, int idKV) {
 		// TODO Auto-generated method stub
-		return rapRepository.RapCuaLichRap(startDate, idKV);
+		return rapRepository.rapCuaLichRap(startDate, idKV);
 	}
 }

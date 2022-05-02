@@ -1,17 +1,16 @@
 package com.project.khoaluan.controller;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.Callable;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,25 +18,22 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.project.khoaluan.dao.GheNgoiRepository;
-import com.project.khoaluan.dao.NguoiDungRepository;
-import com.project.khoaluan.model.GheNgoi;
-import com.project.khoaluan.model.KhuVuc;
+import com.project.khoaluan.entity.GheLichSuDvDOT;
+import com.project.khoaluan.entity.LichSuDatVeDOT;
 import com.project.khoaluan.model.NguoiDung;
 import com.project.khoaluan.model.Phim;
-import com.project.khoaluan.model.TheLoai;
+import com.project.khoaluan.service.ChiTietHoaDonDetailsServiceImpl;
 import com.project.khoaluan.service.KhuVucDetailsServiceImpl;
 import com.project.khoaluan.service.NguoiDungDetailsServiceImpl;
 import com.project.khoaluan.service.PhimDetailsServicelmpl;
@@ -58,6 +54,8 @@ public class MainController {
 	@Autowired
 	SuatChieuDetailsServiceImpl suatChieuDetailsServiceImpl;
 	@Autowired
+	ChiTietHoaDonDetailsServiceImpl	chiTietHoaDonDetailsServiceImpl;
+	@Autowired
 	public JavaMailSender emailSender;
 	
 	@RequestMapping("/")
@@ -70,18 +68,65 @@ public class MainController {
 		}
 		session.setAttribute("username", username);
 		session.setAttribute("role", authorities.size());
+		session.setAttribute("nguoidung", ndDetailsServiceImpl.findByEmail(username));
 		LocalDate date = LocalDate.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		String formattedString = date.format(formatter);
 		System.out.println(username);
-		List<Phim> phims = phimDetailsServicelmpl.loadPhim(date);
-		model.addAttribute("phim",phims);
+		LocalDate ngayketthuc= date.plusDays(7);
+		List<Phim> phimdachieu = phimDetailsServicelmpl.phimDaChieu(date,ngayketthuc);
+		List<Phim> phims = new ArrayList<Phim>();
+		if (phimdachieu.size()!=0) {
+			for (int i = 0; i < phimdachieu.size(); i++) {
+				if (phims.contains(phimdachieu.get(i))==false) {
+					phims.add(phimdachieu.get(i));
+					
+				}
+				
+			}
+			model.addAttribute("pdc",phims);
+		}
 		model.addAttribute("date",formattedString);
         return "index";
     }
+	@GetMapping("/timPhim")
+	 public String timPhim (Model model,@RequestParam("tenPhim") String tenPhim) {
+		if (tenPhim=="") {
+			return "redirect:/";
+		}
+		List<Phim> list = phimDetailsServicelmpl.timPhim(tenPhim.toLowerCase().trim());
+		model.addAttribute("p",list);
+		return "TimPhim";
+	}
+	@RequestMapping("/thongtinNd")
+	
+	 public String thongtinNd (HttpSession session,Model model) {
+		String email = (String) session.getAttribute("username");
+		NguoiDung nguoiDung = ndDetailsServiceImpl.findByEmail(email);
+		model.addAttribute("nd", nguoiDung);
+
+
+		return "TTnd";
+	}
+	@PostMapping("/suaThongTin")
+	
+	 public String suaThongTin (@ModelAttribute("nd") NguoiDung nd) {
+		ndDetailsServiceImpl.SuaNguoiDungkhongcapnhatMK(nd);
+		
+		return "redirect:/thongtinNd";
+	}
+	@PostMapping("/doiMatKhau")  
+    public String doiMatKhau(@ModelAttribute("nd") NguoiDung theUser) {
+	 	NguoiDung nguoiDung=ndDetailsServiceImpl.TimNguoiDung(theUser.getEmail());
+	 	nguoiDung.setMatKhau(theUser.getMatKhau());
+	 	ndDetailsServiceImpl.saveQMK(nguoiDung);
+		System.out.println(theUser);
+        return "redirect:/logout";
+    }
+
 	@RequestMapping("/phimsapchieu")
 	
-	 public String phimsapchieu (Model model) {
+	 public String phimSapChieu (Model model) {
 		LocalDate date = LocalDate.now();
 		List<Phim> phims = phimDetailsServicelmpl.phimSapChieu(date);
 		model.addAttribute("phim",phims);
@@ -89,16 +134,20 @@ public class MainController {
 	}
 	@RequestMapping("/kiemtrasuat")
 	
-	 public String kiemtrasuat (@RequestParam("idPhim") int idPhim) {
+	 public String kiemTraSuat (@RequestParam("idPhim") int idPhim) {
 		LocalDate date = LocalDate.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		LocalDate ngayChieuGanNhat = suatChieuDetailsServiceImpl.ngayChieuGannhat(date, idPhim);
-		String ngaychieu = ngayChieuGanNhat.format(formatter);
+		String ngaychieu;
 		if (ngayChieuGanNhat!=null) {
-			 return "redirect:/datve/lichPhim?idPhim="+idPhim+"&ngay="+ngaychieu+"";
+			ngaychieu = ngayChieuGanNhat.format(formatter);
 		}else {
-			return "redirect:/phimsapchieu";
+			ngaychieu = "null";
 		}
+	
+		
+		return "redirect:/datve/lichPhim?idPhim="+idPhim+"&ngay="+ngaychieu+"";
+		
 	}
 	 @RequestMapping("/login")   
 	    public String getLogin() {
@@ -112,14 +161,14 @@ public class MainController {
 	        return "dangki";
 	    }
 	 @GetMapping("/showqmk")  
-	    public String showformquenmatkhau(Model model) {
+	    public String showFormQuenMatkhau(Model model) {
 	    	NguoiDung user = new NguoiDung();
 	    	model.addAttribute("user",user);
 	        return "quenmatkhau";
 	    }
 	
 	 @GetMapping("/showdoiqmkNoti")  
-	    public String showformdoiqkmNoti(Model model,@RequestParam(value = "inform") String inform) {
+	    public String showFormDoiQMKNoti(Model model,@RequestParam(value = "inform") String inform) {
 	    	NguoiDung user = new NguoiDung();
 	    	model.addAttribute("user",user);
 	    	if(inform.equalsIgnoreCase("thanhcong")) {
@@ -139,7 +188,7 @@ public class MainController {
 	        return "dangki";
 	    }
 	 @GetMapping("/showdoiqmk")  
-	    public String showformdoiqkm(Model model,@RequestParam(value = "token") String token) {
+	    public String showFormDoiQKM(Model model,@RequestParam(value = "token") String token) {
 	    	NguoiDung user = ndDetailsServiceImpl.TimNguoiDungforToken(token);
 	    	if (user==null) {
 	    		 return "redirect:/login";
@@ -156,11 +205,12 @@ public class MainController {
 		 	nguoiDung.setMatKhau(theUser.getMatKhau());
 		 	nguoiDung.setTokenQuenMatKhau("");
 		 	ndDetailsServiceImpl.saveQMK(nguoiDung);
-	    	System.out.println("adfadfdsdsafsf"+nguoiDung);
 	        return "redirect:/login";
 	    }
 	 @PostMapping("/quenMatKhau")
 	    public String quenMatKhau(@ModelAttribute("user") NguoiDung theUser){
+		 String link = ServletUriComponentsBuilder.fromCurrentContextPath().toUriString();
+
 			if (ndDetailsServiceImpl.TimNguoiDung(theUser.getEmail())!=null) {
 				NguoiDung nguoiDung;
 				nguoiDung=ndDetailsServiceImpl.TimNguoiDung(theUser.getEmail());
@@ -173,7 +223,7 @@ public class MainController {
 		        MimeMessageHelper helper;
 				try {
 					helper = new MimeMessageHelper(message, multipart, "utf-8");
-					String htmlMsg = "<a href=\"http://localhost:8080/showdoiqmk?token="+confirmationToken+"\">Đặt lại mật khẩu tại đây</a>";
+					String htmlMsg = "<a href=\""+link+"/showdoiqmk?token="+confirmationToken+"\">Đặt lại mật khẩu tại đây</a>";
 			        
 			        message.setContent(htmlMsg, "text/html;charset=UTF-8");
 			        
@@ -205,34 +255,17 @@ public class MainController {
 			}
 		   
 	    }
-	@Autowired
-	GheNgoiRepository gheNgoiRepository;
-	 @GetMapping("/datve")
-	 
-	    public String datve(Model model) {
-		 List<GheNgoi> gheNgois= gheNgoiRepository.gheNgoiCuaPhong();
-		
-			model.addAttribute("h", gheNgois);
-	        return "datve";
-	    }
-	 @GetMapping("/vitridatve")
-	 @ResponseBody
-	 public List<GheNgoi> vitridatve(HttpSession session,@RequestParam(value = "vitri") int[] vitri) {
-		 List<GheNgoi> gheNgois= gheNgoiRepository.gheNgoiCuaPhong();
-		 List<GheNgoi> gheNgoi1 = new ArrayList<GheNgoi>();
-		 for (int i = 0; i < gheNgois.size(); i++) {
-			 for (int j = 0; j < vitri.length; j++) {
-				if (vitri[j]==i) {
-					gheNgoi1.add(gheNgois.get(i));
-					
-				}
-				
-			}
-			
-		}
-		 session.setAttribute("gheNgoi", gheNgoi1);
-		 return gheNgoi1;
-	 }
+	@GetMapping("/lichSuDatVe")  
+    public String lichSuDatVe(HttpSession session,Model model) {
+		String email = (String) session.getAttribute("username");
+		NguoiDung nd = ndDetailsServiceImpl.findByEmail(email);
+		List<LichSuDatVeDOT> list  = chiTietHoaDonDetailsServiceImpl.lichSuDatVe(nd.getId());
+		List<GheLichSuDvDOT> list2 = chiTietHoaDonDetailsServiceImpl.lichSuCtDatVe(nd.getId());
+    	model.addAttribute("ls", list);
+    	model.addAttribute("g", list2);
+        return "lichSuDatVe";
+    }
+
 	 
 	
 }

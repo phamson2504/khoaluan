@@ -29,7 +29,7 @@
 		
 		</script>
 	
-        <title>Admin</title>
+        <title>Phim</title>
     </head>
     <script>
     $(function() {
@@ -48,14 +48,18 @@
                 <a href="#!" class="menu-toggle">
                     <i class="fas fa-bars"></i>
                 </a>
-                <a href="/" class="easion-logo"><i class="fa fa-home"></i> <span>Home</span></a>
+                <a href="/" class="easion-logo"><i class="fa fa-home"></i> <span>Trang Chủ</span></a>
             </header>
             <nav class="dash-nav-list">
-                <a href="" class="dash-nav-item">
-                    <i class="fa fa-desktop" aria-hidden="true"></i> Dashboard </a>
-                <a href="" class="dash-nav-item"><i class="fa fa-user" aria-hidden="true"></i> Người Dùng </a>
-                <a href="" class="dash-nav-item"> <i class="fa fa-film" aria-hidden="true"></i> Phim </a>
-                <a href="" class="dash-nav-item"> <i class="fa fa-th-list" aria-hidden="true"></i> Quản lý Rạp </a>
+                <a href="/admin/thongke" class="dash-nav-item">
+                    <i class="fa fa-desktop" aria-hidden="true"></i> Thống Kê </a>
+                <a href="/admin/nguoidung" class="dash-nav-item"><i class="fa fa-user" aria-hidden="true"></i> Người Dùng </a>
+                <a href="/admin/phim" class="dash-nav-item"> <i class="fa fa-film" aria-hidden="true"></i> Phim </a>
+                <a href="/admin/KhuVucs" class="dash-nav-item"> <i class="fa fa-th-list" aria-hidden="true"></i> Quản lý Rạp </a>
+                <a href="/admin/theLoais" class="dash-nav-item"> <i class="fa fa-th-list" aria-hidden="true"></i> Thể Loại </a>
+               <a class="dash-nav-item" href="/logout"><i class="fa fa-outdent" aria-hidden="true"></i>Logout</a>
+    				
+				
                 
             </nav>
         </div>
@@ -74,7 +78,7 @@
 								    </div>
 								  </div>
 								  <div class="form-group row">
-								    <label for="formGroupExampleInput" class="col-sm-2 col-form-label">Thời Lượng</label>
+								    <label for="formGroupExampleInput" class="col-sm-2 col-form-label">Thời Lượng (Phút)</label>
 								    <div class="col-sm-10">
 								      <form:input type="number" path="thoiLuong" class="form-control"/>
 								    </div>

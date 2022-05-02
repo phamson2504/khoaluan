@@ -12,9 +12,11 @@ public interface SuatChieuDetailsService {
 	public void AddSuatChieu(SuatChieu suatChieu,int idTheLoai,int idRoom);
 	public List<ChiTietSuat> chiTietSuatTheoPhim(int idPhim);
 	public void XoaSuatChieu(int idSc);
-	List<ChiTietSuat> SuatChieuCuaPhim(int idPhim,LocalDate startDate,int idKV,int idTL);
+	public void UpdateSuatChieu(SuatChieu suatChieu,int idTheLoai,int idRoom);
+	List<ChiTietSuat> suatChieuCuaPhim(int idPhim,LocalDate startDate,int idKV,int idTL);
 	LocalDate ngayChieuGannhat( LocalDate startDate , int idPhim);
-	List<ChiTietSuat> SuatChieuCuaRap(int idRap,LocalDate startDate,int idTL);
-	
+	List<ChiTietSuat> suatChieuCuaRap(int idRap,LocalDate startDate,int idTL);
+	ChiTietSuat ChiTietSuatChieu(int id);
+	SuatChieu findSuatChieu(int idSuat);
 	
 }

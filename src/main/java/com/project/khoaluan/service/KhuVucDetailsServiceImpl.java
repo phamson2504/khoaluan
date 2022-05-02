@@ -27,13 +27,19 @@ public class KhuVucDetailsServiceImpl implements KhuVucDetailsService{
 		khuVucRepository.deleteById(id);;
 	}
 	@Override
-	public List<KhuVuc> KhuVucCuaPhim(int idPhim, LocalDate startDate) {
+	public List<KhuVuc> khuVucCuaPhim(int idPhim, LocalDate startDate) {
 		// TODO Auto-generated method stub
-		return khuVucRepository.KhuVucCuaPhim(idPhim, startDate);
+		return khuVucRepository.khuVucCuaPhim(idPhim, startDate);
 	}
 	@Override
-	public List<KhuVuc> KhuVucCuaRap(LocalDate startDateL) {
+	public List<KhuVuc> khuVucCuaRap(LocalDate startDateL) {
 		// TODO Auto-generated method stub
-		return khuVucRepository.KhuVucCuaRap(startDateL);
+		return khuVucRepository.khuVucCuaRap(startDateL);
+	}
+	@Override
+	public void suaKhuVuc(KhuVuc khuVuc) {
+		KhuVuc	khuVuc1 = khuVucRepository.findById(khuVuc.getId());
+	 	khuVuc1.setTenKhuVuc(khuVuc.getTenKhuVuc());
+	 	khuVucRepository.save(khuVuc1);
 	}
 }

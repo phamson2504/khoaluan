@@ -44,8 +44,7 @@ public class AdminController {
 				integers.add(phim.getId());
 			}
 		 	List<TheLoai> theLoais = theLoaiDetailsServiceImpl.getTheLoais();
-		 	
-		 	System.out.println(integers);
+		 
 		 	model.addAttribute("i", integers);
 		 	 model.addAttribute("phim", list);
 		 	model.addAttribute("tl", theLoais);
@@ -65,19 +64,23 @@ public class AdminController {
 	        return "ThemPhim";
 	    }
 	 @PostMapping("/phim/luuphim")
-	 public String LuuPhim(@ModelAttribute("phim") Phim phim,@RequestParam("file") MultipartFile file) {
-		 System.out.println(phim);
-		 Phim phim2 = detailsServicelmpl.getPhimId(phim.getId());
-		 if (phim2!=null&&phim2.getHinhAnh()!=null) {
+	 public String luuPhim(@ModelAttribute("phim") Phim phim,@RequestParam("file") MultipartFile file) {
+	
+		Phim phim2 = detailsServicelmpl.getPhimId(phim.getId());
+		if (file.getOriginalFilename().equalsIgnoreCase("")&&phim2!=null) {
 			phim.setHinhAnh(phim2.getHinhAnh());
 		}else {
-			 String publicURL = awsS3Service.uploadFile(file);
-				System.out.println(publicURL);
-				phim.setHinhAnh(publicURL);
+			String publicURL = awsS3Service.uploadFile(file);
+			phim.setHinhAnh(publicURL);
+		}
+		 String[] Trailer = phim.getTrailer().split("v=");
+		 String[] Trailer1 = phim.getTrailer().split("/watch");
+		 if (Trailer.length!=1&&Trailer1.length!=1) {
+			 phim.setTrailer(Trailer1[0]+"/embed/"+Trailer[1]);
+			 System.out.println(phim.getTrailer());
 		}
 		detailsServicelmpl.LuuPhim(phim);
 		return "redirect:/admin/phim";
-		 
 	 }
 	 @RequestMapping("/xoaPhim")   
 	    public String xoaPhim(Model model,@RequestParam(value = "idPhim") int id) {

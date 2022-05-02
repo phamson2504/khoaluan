@@ -27,32 +27,67 @@
        <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
     <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript" src="<c:url value="/resources/js/lichPhim.js"/>"></script>
-        <title>Home</title>
+        <title>Lịch Phim</title>
     </head>
+    <style>
+		.rate {
+		    float: left;
+		    height: 46px;
+		    padding: 0 10px;
+	
+		}
+		.rate:not(:checked) > input {
+		    position:absolute;
+		    top:-9999px;
+		}
+		.rate:not(:checked) > label {
+		    float:right;
+		    width:1em;
+		    overflow:hidden;
+		    white-space:nowrap;
+		    cursor:pointer;
+		    font-size:30px;
+		    color:#ccc;
+		}
+		.rate:not(:checked) > label:before {
+		    content: '★ ';
+		}
+		.rate > input:checked ~ label {
+		    color: #ffc700;    
+		}
+		.rate:not(:checked) > label:hover,
+		.rate:not(:checked) > label:hover ~ label {
+		    color: #deb217;  
+		}
+		.rate > input:checked + label:hover,
+		.rate > input:checked + label:hover ~ label,
+		.rate > input:checked ~ label:hover,
+		.rate > input:checked ~ label:hover ~ label,
+		.rate > label:hover ~ input:checked ~ label {
+		    color: #c59b08;
+		}
+		
+		/* Modified from: https://github.com/mukulkant/Star-rating-using-pure-css */
+    </style>
     <script type="text/javascript">
   
-    	var idPhim =${idPhim} 
+    	var idPhim =${idPhim};
     	
     	
    
     	
     </script>
-    <body>
-      <div style="background-color: rgba(243, 217, 232, 0.3); min-width: 100%; height: 100%; ">
+    <body style="background-color: rgba(243, 217, 232, 0.3); min-width: 100%; height: 100%; ">
+      <div >
     <div class="container-fluid">
     <!-- navbar -->
     <div class="row">
         <div class="col-md-12 navbar bg-dark">
                     <a  class="logo navbar-brand text-white offset-md-2" href="/">Sơn Hảo Phim</a>
                     <nav class="navbar navbar-light bg-dark">
-                        <form class="form-inline">
-                            <input class="form-control mr-sm-2" type="search" placeholder="Nhập tên phim..."
-                                aria-label="Tìm tên phim">
-                            <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Tìm kiếm</button>
-                        </form>
+                        
                     </nav>
                     <ul class="nav">
-                        <li class="nav-item"><a href="/" class="nav-link">Trang chủ</a></li>
                         <c:choose>
 						    <c:when test="${sessionScope.username==null}">
 						        <li class="nav-item"><a href="/login" class="nav-link">Đăng Nhập</a></li>
@@ -60,15 +95,19 @@
                         		<li class="nav-item"><a href="/showdangki" class="nav-link">Đăng Ký</a></li>
 						    </c:when>    
 						    <c:otherwise>
-						    	<li class="nav-item"><a href="/showdangki" class="nav-link">${sessionScope.username}</a></li>
+						    <li class="nav-item"><a href="/thongtinNd" class="nav-link">${sessionScope.username}</a></li>
+						    <li class="nav-item"><a href="/lichSuDatVe" class="nav-link">Lịch Sử Đặt Vé</a></li>
+						    <c:choose>
+							    <c:when test="${sessionScope.role==2}">
+							     	<li class="nav-item"><a href="/admin/phim" class="nav-link">Quản Lý</a></li>
+							    </c:when>    
+							</c:choose>
+						    	
 						        <li class="nav-item"><a href="/logout" class="nav-link">Đăng Xuất</a></li>
+						       
 						    </c:otherwise>
 						</c:choose>
-						<c:choose>
-						    <c:when test="${sessionScope.role==2}">
-						     	<li class="nav-item"><a href="/admin/phim" class="nav-link">Quản Lý</a></li>
-						    </c:when>    
-						</c:choose>
+						<input type="hidden" value="${sessionScope.username}" id="tenND"/>
                         
                         
                         
@@ -85,14 +124,36 @@
             <div class="col-6 mt-5">
                 <div class="row">
                     <div class="col-6">
-                        <img src="${p.hinhAnh}"
+                    <a data-toggle="modal" data-target="#modelId">
+                      <img src="${p.hinhAnh}"
                             style="width: 300px; height: 455px; margin-left: 75px;" />
+                    </a>
+                      
                     </div>
                     <div class="col-6 m-0">
                         <h4 style="color: red;">${p.tenPhim}</h4>
                         </br>
                         <i class="fa fa-stopwatch mt-3">${p.thoiLuong}</i>
+                       
                         </br>
+                        <div class="row">
+                        <h6 style="margin-top: 15px;margin-left: 15px" id="danhgiaS">${sao.saoTB}/10 (${sao.soLuong})</h6>
+                        <div class="rate">
+					    <input type="radio" id="star5" name="rate" value="5" />
+					    <label for="star5" title="text">5 stars</label>
+					    <input type="radio" id="star4" name="rate" value="4" />
+					    <label for="star4" title="text">4 stars</label>
+					    <input type="radio" id="star3" name="rate" value="3" />
+					    <label for="star3" title="text">3 stars</label>
+					    <input type="radio" id="star2" name="rate" value="2" />
+					    <label for="star2" title="text">2 stars</label>
+					    <input type="radio" id="star1" name="rate" value="1" />
+					    <label for="star1" title="text">1 star</label>
+					  	</div>
+                        </div>
+                         
+						
+						</br>
                         <p class="mt-3">Đạo diễn: ${p.daoDien}</p>
                         </br>
                         <p class="mt-1">Thể loại: ${p.theLoai}</p>
@@ -100,8 +161,35 @@
                         <p class="mt-1">Diễn viên: ${p.dienVien}</p>
                         </br>
                         <p class="mt-1">Ngày công chiếu: ${p.ngayCongChieu}</p>
-
+						<button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modelId">Trailer</button>
                     </div>
+                    <div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
+                            aria-hidden="true">
+                            <div class="modal-dialog" role="document" style="margin-top: 65px;">
+                                <div class="modal-content" style="width: 685px; margin-left: -70px;">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Trailer</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        
+                                            <iframe class="embed-responsive-item" src="${p.trailer}" allowfullscreen style="width: 650px; height: 550px;"></iframe>
+
+                                            <!-- <video width="150" height="100" controls>
+                                                <source src="../trailer/Sequence 01_2.mp4 " type="video/ogg">
+                                                </video> -->
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-dismiss="modal">Đóng</button>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                      </div>
 
                     <div style="margin-left: 40px;">
                         <h3 class="mt-3">Nội Dung Phim</h3>
@@ -127,15 +215,29 @@
 
 		                       
                        </script>
-                       <select id="kvSelect" class="custom-select mt-3" style="width: 35%;"id="kvSelect">
+                       <select id="kvSelect" class="custom-select mt-3" style="width: 35%;">
                             <c:forEach items="${kv}" var="kv" >
-                        		<option value="${kv.id}">${kv.tenKhuVuc}</option>
+	                            <c:choose>
+								    <c:when test="${idKv==kv.id}">
+								  		<option value="${kv.id}" selected>${kv.tenKhuVuc}</option>
+								    </c:when>  
+								    <c:otherwise>
+								  		<option value="${kv.id}">${kv.tenKhuVuc}</option>
+								    </c:otherwise>  
+								</c:choose>
                         	</c:forEach>
                         </select>
                           <br>
 						<select  id="tlSelect" class="custom-select mt-3" style="width: 35%;">
                            <c:forEach items="${tl}" var="tl">
-                        		<option value="${tl.id}">${tl.ten}</option>
+                        		<c:choose>
+								    <c:when test="${idTl==tl.id}">
+								  		 <option value="${tl.id}" selected>${tl.ten}</option>
+								    </c:when>  
+								    <c:otherwise>
+								  		 <option value="${tl.id}">${tl.ten}</option>
+								    </c:otherwise>  
+								</c:choose>
                         	</c:forEach>
                         </select>
  						
@@ -160,7 +262,7 @@
                                   <c:forEach items="${s}" var="s">
                                   	<c:choose>
 									    <c:when test="${s.idRap==r.id}">
-									        <a href="/datve/suat?id=${s.id}" class="btn btn-warning" style="margin-left: 10px; width: 70px; margin: 4px;">${s.gioBatDau}</a>
+									        <a href="/chonve/suat?id=${s.id}" class="btn btn-warning" style="margin-left: 10px; width: 70px; margin: 4px;">${s.gioBatDau}</a>
 									        
 									    </c:when>  
 									</c:choose>

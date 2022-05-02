@@ -23,23 +23,42 @@
      <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
     <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
     	<script type="text/javascript" src="<c:url value="/resources/js/datve.js"/>"></script>
-        <title>Admin</title>
+        <title>Đặt Vé</title>
     </head>
-    <style>
-
-    
-    </style>
+    <script type="text/javascript">
+    	var idSuat = ${s.id}
+    </script>
 
     <body>
    		<!-- navbar -->
     <div class="col-md-12 navbar bg-dark">
-        <a href="index.html" class="logo navbar-brand text-white offset-md-2">Sơn Hảo Phim</a>
+        <a href="/" class="logo navbar-brand text-white offset-md-2">Sơn Hảo Phim</a>
         <ul class="nav">
-            <li class="nav-item"><a href="/home" class="nav-link">Trang chủ</a></li>
-            <li class="nav-item"><a href="/home" class="nav-link">Đăng Xuất</a></li>
+                        <c:choose>
+						    <c:when test="${sessionScope.username==null}">
+						        <li class="nav-item"><a href="/login" class="nav-link">Đăng Nhập</a></li>
 
+                        		<li class="nav-item"><a href="/showdangki" class="nav-link">Đăng Ký</a></li>
+						    </c:when>    
+						    <c:otherwise>
+						    <li class="nav-item"><a href="/thongtinNd" class="nav-link">${sessionScope.username}</a></li>
+						    <li class="nav-item"><a href="/lichSuDatVe" class="nav-link">Lịch Sử Đặt Vé</a></li>
+						    <c:choose>
+							    <c:when test="${sessionScope.role==2}">
+							     	<li class="nav-item"><a href="/admin/phim" class="nav-link">Quản Lý</a></li>
+							    </c:when>    
+							</c:choose>
+						    	
+						        <li class="nav-item"><a href="/logout" class="nav-link">Đăng Xuất</a></li>
+						       
+						    </c:otherwise>
+						</c:choose>
+						
+                        
+                        
+                        
 
-        </ul>
+            </ul>
     </div>
 
     <!-- Chia layout -->
@@ -49,11 +68,12 @@
             <!-- Hình ảnh phim -->
             <div class="col-3" style="font-weight: bold;">
                 <div class="card" style="width: 100%; background-color: antiquewhite;">
-                    <img class="card-img-top" src="/resources/img/avanger.jpg" alt="Card image cap" style="height: 500px;">
+                    <img class="card-img-top" src="${anh}" alt="Card image cap" style="height: 500px;">
                     <div class="card-body">
-                        <p class="card-text">Lootte Gò Vấp - AVANGER</p>
-                        <p class="card-text">Ngày Chiếu:...</p>
-                        <p class="card-text">Giờ Chiếu:...</p>
+                        <p class="card-text">${s.tenRap} - ${s.tenPhim}</p>
+                        <p class="card-text">Ngày Chiếu: ${s.ngayChieu}</p>
+                        <p class="card-text">Giờ Chiếu:${s.gioBatDau}</p>
+                        
                     </div>
                 </div>
             </div>
@@ -67,14 +87,26 @@
 					<div class="container">
                     <!-- Hàng A -->
                     <div class="m-2 text-center">
-                    	<c:forEach items="${h}" var="h">
+                    <c:choose>
+					    <c:when test="${hetTG==true}">
+					   		<h1>Suất đã hết thời gian có thể đặt</h1>
+					    </c:when>    
+					    <c:otherwise>
+							<c:forEach items="${h}" var="h">
 									<c:choose>
 									    <c:when test="${h.viTriCot==0}">
 									   	 <c:choose>
 									         <c:when test = "${h.viTriHang=='A'}">
 									         <div class="row">
-									         		 
-					        						<div class="seat" >${ h.viTriHang}${ h.viTriCot}</div>
+									         		 <c:choose>
+													    <c:when test="${h.daDat==true}">
+													    	<div class="seat">${ h.viTriHang}${ h.viTriCot}</div>
+													    </c:when>    
+													    <c:otherwise>
+													    	<div class="seat occupied" >${ h.viTriHang}${ h.viTriCot}</div>
+													    </c:otherwise>
+													</c:choose>
+					        						
 											    
 									         </c:when>
 									         
@@ -82,44 +114,63 @@
 									            </div>
 											    <div class="row">
 											    	
-											    	<div class="seat" >${ h.viTriHang}${ h.viTriCot}</div>
+											    	<c:choose>
+													    <c:when test="${h.daDat==true}">
+													    	<div class="seat" >${ h.viTriHang}${ h.viTriCot}</div>
+													    </c:when>    
+													    <c:otherwise>
+													    	<div class="seat occupied" >${ h.viTriHang}${ h.viTriCot}</div>
+													    </c:otherwise>
+													</c:choose>
 											   
 									         </c:otherwise>
 									      </c:choose>
 							
 									    </c:when>    
 									    <c:otherwise>
-									  			<div class="seat" >${ h.viTriHang}${ h.viTriCot}</div>
+									  			<c:choose>
+													    <c:when test="${h.daDat==true}">
+													    	<div class="seat" >${ h.viTriHang}${ h.viTriCot}</div>
+													    </c:when>    
+													    <c:otherwise>
+													    	<div class="seat occupied" >${ h.viTriHang}${ h.viTriCot}</div>
+													    </c:otherwise>
+													</c:choose>
 									  			
 									    </c:otherwise>
 								</c:choose> 
 						
 						</c:forEach>
-                    	
-                      
-                    	
+                    	 </div>
+                    	 <div class="row mt-5 text-center">
 
-                    </div>
-                    
-				
-
-                    <div class="row mt-5 text-center">
-
-                        <div class="col-4">
+                        <div class="col-6">
                         	<div class="row">
                         		 <div class="seat occupied "> </div><p> Đã có người đặt</p>
                         	</div>
                            
 
                         </div>
-                        <div class="col-4">
+                        <div class="col-6">
                             <div class="row">
-                        		 <div class="seat " > </div><p> Ghế còn trống</p>
+                        		 <div class="trong" > </div><p> Ghế còn trống</p>
                         	</div>
 
                         </div>
 
                     </div>
+					    </c:otherwise>
+					     
+					</c:choose>
+                    	
+                     
+                    	
+
+                
+                    
+				
+
+                    
 				</div>
 
                 </div>
@@ -130,23 +181,21 @@
             <!-- Hóa đơn -->
             <div class="col-4">
                 <div class="card" style="width: 100%; background-color: antiquewhite;">
-                    <img class="card-img-top" src="/resources/img/avanger.jpg" alt="Card image cap">
+                    <img class="card-img-top" src="${anh}" alt="Card image cap" style="height: 500px;">
                     <div class="card-body">
-                        <p class="card-text" style="font-weight: bold;">AVANGER</p>
-                        <p class="card-text">Rạp: Lotte Gò Vấp</p>
-                        <p class="card-text">Suất Chiếu: 15h | Thứ 7, ngày 26 tháng 2 năm 2022</p>
+                        <p class="card-text" style="font-weight: bold;">${s.tenPhim}</p>
+                        <p class="card-text">Rạp: ${s.tenRap}</p>
+                        <p class="card-text">Suất Chiếu: ${s.gioBatDau} | ${s.ngayChieu}</p>
                         <div class="row" style="margin-left:0.5px">
-                       		 Ghế:<p class="card-text" id="tenGhe"> </p>
+                       		 Ghế:<p class="card-text" id="tenGhe">0</p>
                         </div>
-                        
+                        <input type="hidden" id="gia1Suat" value="${s.giaVe}">
                        
-                       Tổng Tiền: <p class="card-text"  id="gia"> 0 </p>(vnd)
+                       Tổng Tiền: <p class="card-text"  id="gia" > 0 </p>(vnd)
 
                         <div class="text-center mt-5">
-                            <button type="button" class="btn btn-danger m-3"
-                                style="width: 150px; height: 50px; font-weight: bold;">Quay Lại</button>
-                            <button type="button" class="btn btn-warning"
-                                style="width: 150px; height: 50px; font-weight: bold;">Thanh Toán</button>
+                            <a type="button" id="btnThanhToan" class="btn btn-warning" href="/chonve/ShowFormThanhToan"
+                                style="width: 150px; height: 50px; font-weight: bold;">Thanh Toán</a>
 
                         </div>
                     </div>

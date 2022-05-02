@@ -29,7 +29,7 @@ public class RapController {
 	
 	@RequestMapping("/raps") 
 	
-    public String Raps(Model model,@RequestParam("idKhuVuc") int idKhuVuc) {
+    public String raps(Model model,@RequestParam("idKhuVuc") int idKhuVuc) {
 		KhuVuc khuVuc = khuVucDetailsServiceImpl.findKhuVuc(idKhuVuc);
 	 	List<Rap> raps= khuVuc.getRaps();
 	 	model.addAttribute("rap",raps);
@@ -42,8 +42,8 @@ public class RapController {
         return "redirect:/admin/raps?idKhuVuc="+idKhuVuc+"";
     }
 	@PostMapping("/UpdateRap")   
-    public String UpdateRap(@ModelAttribute("rap") Rap rap,@RequestParam("idKhuVuc") int idKhuVuc) {
-	 	rapDetailsServiceImpl.UpdateRap(rap, idKhuVuc);
+    public String updateRap(@ModelAttribute("rap") Rap rap,@RequestParam("idKhuVuc") int idKhuVuc) {
+	 	rapDetailsServiceImpl.updateRap(rap, idKhuVuc);
         return "redirect:/admin/raps?idKhuVuc="+idKhuVuc+"";
     }
 	@RequestMapping("/xoaRap")   

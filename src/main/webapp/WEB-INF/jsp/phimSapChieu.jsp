@@ -26,7 +26,7 @@
  	 <script src="https://kit.fontawesome.com/a076d05399.js"></script>
      <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
     <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
-        <title>Home</title>
+        <title>Phim Sắp Chiếu</title>
     </head>
     <body>
      <div style="background-color: rgba(235, 179, 212, 0.3); min-width: 100%; height: 100%; ">
@@ -36,14 +36,13 @@
 				<div class="col-md-12 navbar bg-dark">
                     <a  class="logo navbar-brand text-white offset-md-2" href="/">Sơn Hảo Phim</a>
                     <nav class="navbar navbar-light bg-dark">
-                        <form class="form-inline">
-                            <input class="form-control mr-sm-2" type="search" placeholder="Nhập tên phim..."
-                                aria-label="Tìm tên phim">
-                            <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Tìm kiếm</button>
-                        </form>
+                        <form class="form-inline" action="/timPhim" method="get">
+		                    <input class="form-control mr-sm-2" name="tenPhim" type="search" placeholder="Nhập tên phim..."
+		                        aria-label="Tìm tên phim">
+		                    <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Tìm kiếm</button>
+		                </form>
                     </nav>
-                    <ul class="nav">
-                        <li class="nav-item"><a href="/" class="nav-link">Trang chủ</a></li>
+                     <ul class="nav">
                         <c:choose>
 						    <c:when test="${sessionScope.username==null}">
 						        <li class="nav-item"><a href="/login" class="nav-link">Đăng Nhập</a></li>
@@ -51,15 +50,19 @@
                         		<li class="nav-item"><a href="/showdangki" class="nav-link">Đăng Ký</a></li>
 						    </c:when>    
 						    <c:otherwise>
-						    	<li class="nav-item"><a href="/showdangki" class="nav-link">${sessionScope.username}</a></li>
+						    <li class="nav-item"><a href="/showdangki" class="nav-link">${sessionScope.username}</a></li>
+						    <li class="nav-item"><a href="/lichSuDatVe" class="nav-link">Lịch Sử Đặt Vé</a></li>
+						    <c:choose>
+							    <c:when test="${sessionScope.role==2}">
+							     	<li class="nav-item"><a href="/admin/phim" class="nav-link">Quản Lý</a></li>
+							    </c:when>    
+							</c:choose>
+						    	
 						        <li class="nav-item"><a href="/logout" class="nav-link">Đăng Xuất</a></li>
+						       
 						    </c:otherwise>
 						</c:choose>
-						<c:choose>
-						    <c:when test="${sessionScope.role==2}">
-						     	<li class="nav-item"><a href="/admin/phim" class="nav-link">Quản Lý</a></li>
-						    </c:when>    
-						</c:choose>
+						
                         
                         
                         

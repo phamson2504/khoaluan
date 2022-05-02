@@ -26,13 +26,13 @@ public class TheLoaiDetailsServiceImpl implements TheLoaiDetailsService{
 		return (List<TheLoai>) theLoaiRepository.findAll();
 	}
 	@Override
-	public List<TheLoai> TheLoaiCuaPhim(int idPhim, LocalDate startDate,int idKv) {
+	public List<TheLoai> theLoaiCuaPhim(int idPhim, LocalDate startDate,int idKv) {
 		
-		return theLoaiRepository.TheLoaiCuaPhim(idPhim, startDate,idKv);
+		return theLoaiRepository.theLoaiCuaPhim(idPhim, startDate,idKv);
 	}
 	@Override
-	public List<TheLoai> TheLoaiCuaRap(LocalDate startDate, int idRap) {
+	public List<TheLoai> theLoaiCuaRap(LocalDate startDate, int idRap) {
 		// TODO Auto-generated method stub
-		return theLoaiRepository.TheLoaiCuaRap(startDate, idRap);
+		return theLoaiRepository.theLoaiCuaRap(startDate, idRap);
 	}
 }

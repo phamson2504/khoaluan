@@ -9,9 +9,10 @@ import com.project.khoaluan.model.KhuVuc;
 
 public interface KhuVucDetailsService {
 	public void addKhuVuc(KhuVuc khuVuc);
+	public void suaKhuVuc(KhuVuc khuVuc);
 	public List<KhuVuc> getKhuVucs();
 	public KhuVuc findKhuVuc(int id);
 	public void deleteKhuVuc(int id);
-	List<KhuVuc> KhuVucCuaPhim(int idPhim,LocalDate startDate);
-	List<KhuVuc> KhuVucCuaRap(LocalDate startDateL);
+	List<KhuVuc> khuVucCuaPhim(int idPhim,LocalDate startDate);
+	List<KhuVuc> khuVucCuaRap(LocalDate startDateL);
 }

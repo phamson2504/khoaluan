@@ -40,9 +40,21 @@ public class PhimDetailsServicelmpl implements PhimDetailsService{
 	}
 
 	@Override
-	public List<Phim> PhimsCuaRap(LocalDate startDate, int idRap, int idTl) {
+	public List<Phim> phimsCuaRap(LocalDate startDate, int idRap, int idTl) {
 		// TODO Auto-generated method stub
-		return phimRepository.PhimsCuaRap(startDate, idRap, idTl);
+		return phimRepository.phimsCuaRap(startDate, idRap, idTl);
+	}
+
+	@Override
+	public List<Phim> phimDaChieu(LocalDate startDate,LocalDate ngayKetThuc) {
+		// TODO Auto-generated method stub
+		return phimRepository.phimDaChieu(startDate,ngayKetThuc);
+	}
+
+	@Override
+	public List<Phim> timPhim(String tenPhim) {
+		// TODO Auto-generated method stub
+		return phimRepository.timPhim(tenPhim);
 	}
 	
 }

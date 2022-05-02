@@ -18,7 +18,7 @@
         <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
         <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
-        <title>Đăng Ký</title>
+        <title>Quên mật khẩu</title>
     </head>
     <script>
 	  $(document).on("click","#btnLogin",function(e){

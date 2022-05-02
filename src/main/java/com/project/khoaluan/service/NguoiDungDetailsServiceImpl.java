@@ -1,6 +1,8 @@
 package com.project.khoaluan.service;
 
 import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +22,7 @@ import com.project.khoaluan.model.VaiTro;
 
 
 @Service
-public class NguoiDungDetailsServiceImpl implements UserDetailsService{
+public class NguoiDungDetailsServiceImpl implements UserDetailsService,NguoiDungDetailsService{
 
 	@Autowired
 	NguoiDungRepository ndRepository;
@@ -113,9 +115,40 @@ public class NguoiDungDetailsServiceImpl implements UserDetailsService{
 		  }
 		   
 	  }
-	  public void XoaNguoiDung() {
-		  ndRepository.deleteById(7);;
+	  public NguoiDung findbyid (int id) {
+		  return ndRepository.findById(id);
 	  }
+	  public List<NguoiDung> allNguoiDung(){
+		  return (List<NguoiDung>) ndRepository.findAll();
+	  }
+	  public void XoaNguoiDung(int id) {
+		  ndRepository.deleteById(id);;
+	  }
+	  public void SuaNguoiDung(NguoiDung nd) {
+		  NguoiDung nguoiDung=  ndRepository.findById(nd.getId());
+		  nguoiDung.setEmail(nd.getEmail());
+		  nguoiDung.setGioiTinh(nd.getGioiTinh());
+		  nguoiDung.setHoTen(nd.getHoTen());
+		  nguoiDung.setMatKhau(passwordEncoder.encode(nd.getMatKhau()));
+		  nguoiDung.setNgaySinh(nd.getNgaySinh());
+		  nguoiDung.setSdt(nd.getSdt());
+		  ndRepository.save(nguoiDung);
+	  }
+	  public void SuaNguoiDungkhongcapnhatMK(NguoiDung nd) {
+		  NguoiDung nguoiDung=  ndRepository.findById(nd.getId());
+		  nguoiDung.setEmail(nd.getEmail());
+		  nguoiDung.setGioiTinh(nd.getGioiTinh());
+		  nguoiDung.setHoTen(nd.getHoTen());
+		  nguoiDung.setNgaySinh(nd.getNgaySinh());
+		  nguoiDung.setSdt(nd.getSdt());
+		  ndRepository.save(nguoiDung);
+	  }
+	@Override
+	public NguoiDung findByEmail(String email) {
+		// TODO Auto-generated method stub
+		return ndRepository.findByEmail(email);
+	}
+	  
 	
 
 }

@@ -26,7 +26,7 @@
      <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
     <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
   	
-        <title>KhuVuc</title>
+        <title>Thể Loại</title>
     </head>
     <script type="text/javascript">
     $(document).ready(function(){
@@ -63,12 +63,12 @@
                 <a href="#!" class="menu-toggle">
                     <i class="fas fa-bars"></i>
                 </a>
-                <a href="/" class="easion-logo"><i class="fa fa-home"></i> <span>Home</span></a>
+                <a href="/" class="easion-logo"><i class="fa fa-home"></i> <span>Trang Chủ</span></a>
             </header>
             <nav class="dash-nav-list">
-                <a href="" class="dash-nav-item">
-                    <i class="fa fa-desktop" aria-hidden="true"></i> Dashboard </a>
-                <a href="" class="dash-nav-item"><i class="fa fa-user" aria-hidden="true"></i> Người Dùng </a>
+                <a href="/admin/thongke" class="dash-nav-item">
+                    <i class="fa fa-desktop" aria-hidden="true"></i> Thống Kê </a>
+                <a href="/admin/nguoidung" class="dash-nav-item"><i class="fa fa-user" aria-hidden="true"></i> Người Dùng </a>
                 <a href="/admin/phim" class="dash-nav-item"> <i class="fa fa-film" aria-hidden="true"></i> Phim </a>
                 <a href="/admin/KhuVucs" class="dash-nav-item"> <i class="fa fa-th-list" aria-hidden="true"></i> Quản lý Rạp </a>
                 <a href="/admin/theLoais" class="dash-nav-item"> <i class="fa fa-th-list" aria-hidden="true"></i> Thể Loại </a>

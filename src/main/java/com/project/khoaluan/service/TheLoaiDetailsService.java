@@ -12,6 +12,6 @@ public interface TheLoaiDetailsService {
 	public void deleteTheLoai(int idTheLoai);
 	public TheLoai findTheLoai(int id);
 	public List<TheLoai> getTheLoais();
-	List<TheLoai> TheLoaiCuaPhim(int idPhim,LocalDate startDate,int idKv);
-	List<TheLoai> TheLoaiCuaRap(@Param("startDate") LocalDate startDate,@Param("idRap") int idRap);
+	List<TheLoai> theLoaiCuaPhim(int idPhim,LocalDate startDate,int idKv);
+	List<TheLoai> theLoaiCuaRap(LocalDate startDate,int KhuVuc);
 }

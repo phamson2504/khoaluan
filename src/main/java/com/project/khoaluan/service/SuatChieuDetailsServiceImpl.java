@@ -35,6 +35,19 @@ public class SuatChieuDetailsServiceImpl implements SuatChieuDetailsService{
 		phong.addSuat(suatChieu);
 		suatChieuRepository.save(suatChieu);
 	}
+	public void UpdateSuatChieu(SuatChieu suatChieu,int idTheLoai,int idRoom) {
+		TheLoai theLoai = theLoaiRepository.findById(idTheLoai);
+	
+		Phong phong = phongRepository.findById(idRoom);
+
+		SuatChieu suatChieu2 = phong.getSuatChieu(suatChieu.getId());
+		suatChieu2.setGiaVe(suatChieu.getGiaVe());
+		suatChieu2.setNgayChieu(suatChieu.getNgayChieu());
+		suatChieu2.setGioBatDau(suatChieu.getGioBatDau());
+		suatChieu2.setPhim(suatChieu.getPhim());
+		suatChieu2.setTheloai(suatChieu.getTheloai());
+		suatChieuRepository.save(suatChieu);
+	}
 	public List<ChiTietSuat> chiTietSuatTheoPhim(int idPhim) {
 		return  suatChieuRepository.findChiTiet(idPhim);
 	}
@@ -42,9 +55,9 @@ public class SuatChieuDetailsServiceImpl implements SuatChieuDetailsService{
 		suatChieuRepository.deleteById(idSc);
 	}
 	@Override
-	public List<ChiTietSuat> SuatChieuCuaPhim(int idPhim, LocalDate startDate, int idKV, int idTL) {
+	public List<ChiTietSuat> suatChieuCuaPhim(int idPhim, LocalDate startDate, int idKV, int idTL) {
 		// TODO Auto-generated method stub
-		return suatChieuRepository.SuatChieuCuaPhim(idPhim, startDate, idKV, idTL);
+		return suatChieuRepository.suatChieuCuaPhim(idPhim, startDate, idKV, idTL);
 	}
 	@Override
 	public LocalDate ngayChieuGannhat(LocalDate startDate, int idPhim) {
@@ -52,9 +65,19 @@ public class SuatChieuDetailsServiceImpl implements SuatChieuDetailsService{
 		return suatChieuRepository.ngayChieuGannhat(startDate, idPhim);
 	}
 	@Override
-	public List<ChiTietSuat> SuatChieuCuaRap(int idRap, LocalDate startDate, int idTL) {
+	public List<ChiTietSuat> suatChieuCuaRap(int idRap, LocalDate startDate, int idTL) {
 		// TODO Auto-generated method stub
-		return suatChieuRepository.SuatChieuCuaRap(idRap, startDate, idTL);
+		return suatChieuRepository.suatChieuCuaRap(idRap, startDate, idTL);
+	}
+	@Override
+	public ChiTietSuat ChiTietSuatChieu(int id) {
+		// TODO Auto-generated method stub
+		return suatChieuRepository.ChiTietSuatChieu(id);
+	}
+	@Override
+	public SuatChieu findSuatChieu(int idSuat) {
+		// TODO Auto-generated method stub
+		return suatChieuRepository.findById(idSuat);
 	}
 
 }

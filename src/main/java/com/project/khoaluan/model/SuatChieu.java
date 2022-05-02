@@ -1,6 +1,7 @@
 package com.project.khoaluan.model;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -11,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -32,6 +34,9 @@ public class SuatChieu {
 	@ManyToOne
     @JoinColumn(name = "the_loai_id")
 	private TheLoai theloai;
+	
+	@OneToMany(mappedBy = "suatChieu", cascade = CascadeType.ALL)
+    private List<ChiTietHoaDon> chiTHDs;
 	
 	
 	public int getId() {

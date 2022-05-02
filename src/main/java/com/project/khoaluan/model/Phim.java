@@ -44,8 +44,12 @@ public class Phim implements Serializable{
 		private String hinhAnh;
 		@DateTimeFormat(pattern = "dd/MM/yyyy")
 		private LocalDate ngayCongChieu;
+		
 		@OneToMany(mappedBy = "phim", cascade = CascadeType.ALL)
 	     private List<SuatChieu> suats;
+		
+		@OneToMany(mappedBy = "phim", cascade = CascadeType.ALL)
+	    private List<DanhGiaPhim> dGPs;
 	
 		
 		

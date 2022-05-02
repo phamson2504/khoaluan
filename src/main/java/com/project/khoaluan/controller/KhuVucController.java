@@ -20,7 +20,7 @@ public class KhuVucController {
 	@Autowired
 	KhuVucDetailsServiceImpl khuVucDetailsServiceImpl;
 	@RequestMapping("/KhuVucs")   
-    public String KhuVucs(Model model) {
+    public String khuVucs(Model model) {
 	 	List<KhuVuc> kv= khuVucDetailsServiceImpl.getKhuVucs();
 	 	model.addAttribute("kv",kv);
         return "KhuVuc";
@@ -30,8 +30,13 @@ public class KhuVucController {
 		khuVucDetailsServiceImpl.addKhuVuc(khuvuc);
 		return "redirect:/admin/KhuVucs";
 	}
+	@PostMapping("/suaKhuVuc")
+	 public String suaKhuVuc(@ModelAttribute("khuvuc") KhuVuc khuvuc) {
+		khuVucDetailsServiceImpl.suaKhuVuc(khuvuc);
+		return "redirect:/admin/KhuVucs";
+	}
 	@RequestMapping("/xoaKhuVuc")   
-    public String xoaRap(Model model,@RequestParam(value = "idKV") int idKV) {
+    public String xoaKhuVuc(Model model,@RequestParam(value = "idKV") int idKV) {
 		khuVucDetailsServiceImpl.deleteKhuVuc(idKV);
 		return "redirect:/admin/KhuVucs";
 	}

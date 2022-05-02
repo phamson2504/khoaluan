@@ -29,7 +29,7 @@
     <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript" src="<c:url value="/resources/js/lichRap.js"/>"></script>
     	
-        <title>Home</title>
+        <title>Lịch Rạp</title>
     </head>
     <body>
      <div style="background-color: rgba(243, 217, 232, 0.3); min-width: 100%; height: 100%; ">
@@ -41,14 +41,9 @@
                 <div class="col-md-12 navbar bg-dark">
                     <a  class="logo navbar-brand text-white offset-md-2" href="/">Sơn Hảo Phim</a>
                     <nav class="navbar navbar-light bg-dark">
-                        <form class="form-inline">
-                            <input class="form-control mr-sm-2" type="search" placeholder="Nhập tên phim..."
-                                aria-label="Tìm tên phim">
-                            <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Tìm kiếm</button>
-                        </form>
+                     
                     </nav>
                     <ul class="nav">
-                        <li class="nav-item"><a href="/" class="nav-link">Trang chủ</a></li>
                         <c:choose>
 						    <c:when test="${sessionScope.username==null}">
 						        <li class="nav-item"><a href="/login" class="nav-link">Đăng Nhập</a></li>
@@ -56,15 +51,19 @@
                         		<li class="nav-item"><a href="/showdangki" class="nav-link">Đăng Ký</a></li>
 						    </c:when>    
 						    <c:otherwise>
-						    	<li class="nav-item"><a href="/showdangki" class="nav-link">${sessionScope.username}</a></li>
+						    <li class="nav-item"><a href="/thongtinNd" class="nav-link">${sessionScope.username}</a></li>
+						    <li class="nav-item"><a href="/lichSuDatVe" class="nav-link">Lịch Sử Đặt Vé</a></li>
+						    <c:choose>
+							    <c:when test="${sessionScope.role==2}">
+							     	<li class="nav-item"><a href="/admin/phim" class="nav-link">Quản Lý</a></li>
+							    </c:when>    
+							</c:choose>
+						    	
 						        <li class="nav-item"><a href="/logout" class="nav-link">Đăng Xuất</a></li>
+						       
 						    </c:otherwise>
 						</c:choose>
-						<c:choose>
-						    <c:when test="${sessionScope.role==2}">
-						     	<li class="nav-item"><a href="/admin/phim" class="nav-link">Quản Lý</a></li>
-						    </c:when>    
-						</c:choose>
+						
                         
                         
                         
@@ -119,32 +118,54 @@
 
                   
                         <input id="datepicker" placeholder="Nhập ngày cần tìm kiếm" width="330"  value="${n}"/>
-                        <script>
-                            $('#datepicker').datepicker({
-                                uiLibrary: 'bootstrap4'
-                            });
-    
-                        </script>
+                       
                    
                    
 
-                    <select class="custom-select mt-3" style="width: 35%;">
+                    <select id="kvSelect" class="custom-select mt-3" style="width: 35%;">
                        <c:forEach items="${kv}" var="kv" >
-                        		<option value="${kv.id}">${kv.tenKhuVuc}</option>
+                       	<c:choose>
+						    <c:when test="${kvChon==kv.id}">
+						  		<option value="${kv.id}" selected>${kv.tenKhuVuc}</option>
+						    </c:when>  
+						    <c:otherwise>
+						  		<option value="${kv.id}">${kv.tenKhuVuc}</option>
+						    </c:otherwise>  
+						</c:choose>
+                        		
                         </c:forEach>
                     </select>
-					<br>
-                    <select class="custom-select mt-3" style="width: 35%;" id="khuvucSelect">
+					
+                     <br>
+                    <select id="rapSelect" class="custom-select mt-3" style="width: 35%;">
                         <c:forEach items="${r}" var="r">
-                        <option value="1">${r.tenRap}</option>
+                        <c:choose>
+						    <c:when test="${rapChon==r.id}">
+						  		 <option value="${r.id}" selected>${r.tenRap}</option>
+						    </c:when>  
+						    <c:otherwise>
+						  		 <option value="${r.id}">${r.tenRap}</option>
+						    </c:otherwise>  
+						</c:choose>
+                       
                         </c:forEach>
                     </select>
                     <br>
-                    <select class="custom-select mt-3" style="width: 35%;" id="khuvucSelect">
+					<select id="tlSelect" class="custom-select mt-3" style="width: 35%;">
                         <c:forEach items="${tl}" var="tl">
-                        <option value="1">${tl.ten}</option>
+                        <c:choose>
+						    <c:when test="${tlChon==tl.id}">
+						  		 <option value="${tl.id}" selected>${tl.ten}</option>
+						    </c:when>  
+						    <c:otherwise>
+						  		 <option value="${tl.id}">${tl.ten}</option>
+						    </c:otherwise>  
+						</c:choose>
+                        
                         </c:forEach>
                     </select>
+                  
+                    
 
                 </div>
 
@@ -154,7 +175,7 @@
 
             <div class="row mt-1">
                        
-                    <div class="col-6" >
+                    <div class="col-6" id="phim">
                     <c:forEach items="${p}" var="p">
                         <div class="row" style="margin-top: 20px">
 						
@@ -171,7 +192,7 @@
                                   	<c:choose>
 									    <c:when test="${s.idPhim==p.id}">
                               
-                               				 <a href="/datve/suat?id=${s.id}" type="button" class="btn btn-secondary m-2" style="margin-left: 10px; width: 70px; margin: 4px;">${s.gioBatDau}</a>
+                               				 <a href="/chonve/suat?id=${s.id}" type="button" class="btn btn-secondary m-2" style="margin-left: 10px; width: 70px; margin: 4px;">${s.gioBatDau}</a>
                                 
                               
                                 		</c:when>  
@@ -188,6 +209,8 @@
 
                     <div class="col-6">
                         <img src="/resources/img/giave.png" style="margin-top: -150px;" />
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3918.552865306777!2d106.77686881458972!3d10.845489792274732!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3175270c3672eead%3A0x48a232403125539e!2zVmluY29tIFBsYXphIEzDqiBWxINuIFZp4buHdA!5e0!3m2!1svi!
+                        2s!4v1647006130811!5m2!1svi!2s" width="765" height="380" style="border:0;margin-top: 60px" allowfullscreen="" loading="lazy"></iframe>
                     </div>
                   
 

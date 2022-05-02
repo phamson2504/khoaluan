@@ -1,5 +1,7 @@
 package com.project.khoaluan.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,5 +20,15 @@ public class GheNgoiDetailsServiceImpl implements GheNgoiDetailsService{
 		Phong phong = phongRepository.findById(idPhong);
 		phong.addGheNgoi(gheNgoi);
 		gheNgoiRepository.save(gheNgoi);
+	}
+	@Override
+	public List<GheNgoi> gheNgoiCuaSuat(int idSuat) {
+		// TODO Auto-generated method stub
+		return gheNgoiRepository.gheNgoiCuaSuat(idSuat);
+	}
+	@Override
+	public List<GheNgoi> gheDaChon(int idSuat) {
+		// TODO Auto-generated method stub
+		return gheNgoiRepository.gheDaChon(idSuat);
 	}
 }

@@ -63,12 +63,12 @@
                 <a href="#!" class="menu-toggle">
                     <i class="fas fa-bars"></i>
                 </a>
-                <a href="/" class="easion-logo"><i class="fa fa-home"></i> <span>Home</span></a>
+                <a href="/" class="easion-logo"><i class="fa fa-home"></i> <span>Trang Chủ</span></a>
             </header>
             <nav class="dash-nav-list">
-                <a href="" class="dash-nav-item">
-                    <i class="fa fa-desktop" aria-hidden="true"></i> Dashboard </a>
-                <a href="" class="dash-nav-item"><i class="fa fa-user" aria-hidden="true"></i> Người Dùng </a>
+                <a href="/admin/thongke" class="dash-nav-item">
+                    <i class="fa fa-desktop" aria-hidden="true"></i> Thống Kê </a>
+                <a href="/admin/nguoidung" class="dash-nav-item"><i class="fa fa-user" aria-hidden="true"></i> Người Dùng </a>
                 <a href="/admin/phim" class="dash-nav-item"> <i class="fa fa-film" aria-hidden="true"></i> Phim </a>
                 <a href="/admin/KhuVucs" class="dash-nav-item"> <i class="fa fa-th-list" aria-hidden="true"></i> Quản lý Rạp </a>
                 <a href="/admin/theLoais" class="dash-nav-item"> <i class="fa fa-th-list" aria-hidden="true"></i> Thể Loại </a>
@@ -84,7 +84,7 @@
                 
                     <h1 class="dash-title">Rạp</h1>
  					   <!-- Trigger the modal with a button -->
-					<a class="btn btn-danger" href="/admin/KhuVucs">Back Khu Vực</a>
+					<a class="btn btn-danger" href="/admin/KhuVucs">Khu Vực</a>
 					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
 					  Thêm Rạp
 					</button>

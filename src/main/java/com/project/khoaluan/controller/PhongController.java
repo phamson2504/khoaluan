@@ -1,6 +1,7 @@
 package com.project.khoaluan.controller;
 
 import java.util.List;
+import java.util.concurrent.Callable;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,7 +31,7 @@ public class PhongController {
 	GheNgoiDetailsServiceImpl gheNgoiDetailsServiceImpl;
 	
 	@RequestMapping("/phongs")  
-	 public String Raps(Model model,@RequestParam("idRap") int idRap,@RequestParam("idKhuVuc") int idKhuVuc) {
+	 public String phongs(Model model,@RequestParam("idRap") int idRap,@RequestParam("idKhuVuc") int idKhuVuc) {
 		Rap rap = rapDetailsServiceImpl.findRap(idRap);
 		List<Phong> phongs = rap.getPhongs();
 		model.addAttribute("phong",phongs);
@@ -39,7 +40,7 @@ public class PhongController {
 	 	return "phong";
 	}
 	@PostMapping("/luuPhong")   
-    public String luuRap(@ModelAttribute("phong") Phong phong,@RequestParam("idRap") int idRap,@RequestParam("idKhuVuc") int idKhuVuc) {
+    public String luuPhong(@ModelAttribute("phong") Phong phong,@RequestParam("idRap") int idRap,@RequestParam("idKhuVuc") int idKhuVuc) {
 		phongDetailsServiceImpl.addPhong(phong, idRap);
 		for (int i = 0; i < phong.getHang(); i++) {
 			for (int j = 0; j < phong.getCot(); j++) {
@@ -87,22 +88,22 @@ public class PhongController {
     }
 	
 	@PostMapping("/UpdatePhong")   
-    public String UpdateRap(@ModelAttribute("phong") Phong phong,@RequestParam("idRap") int idRap,@RequestParam("idKhuVuc") int idKhuVuc) {
+    public String updatePhong(@ModelAttribute("phong") Phong phong,@RequestParam("idRap") int idRap,@RequestParam("idKhuVuc") int idKhuVuc) {
 		phongDetailsServiceImpl.updatePhong(phong, idRap);
 		
 		return "redirect:/admin/phongs?idRap="+idRap+"&idKhuVuc="+idKhuVuc+"";
     }
 	@RequestMapping("/xoaPhong")   
-    public String xoaRap(@RequestParam(value = "idPhong") int idPhong,@RequestParam(value = "idRap") int idRap,@RequestParam("idKhuVuc") int idKhuVuc) {
+    public String xoaPhong(@RequestParam(value = "idPhong") int idPhong,@RequestParam(value = "idRap") int idRap,@RequestParam("idKhuVuc") int idKhuVuc) {
 		phongDetailsServiceImpl.xoaPhong(idPhong);
 		return "redirect:/admin/phongs?idRap="+idRap+"&idKhuVuc="+idKhuVuc+"";
 	}
-	@Autowired
-	GheNgoiRepository gheNgoiRepository;
-	@RequestMapping("/ghe")
-	public String Ghe(Model model) {
-		List<GheNgoi> gheNgois= gheNgoiRepository.gheNgoiCuaPhong();
-		model.addAttribute("h", gheNgois);
-		return "gheNgoi";
-	}
+//	@Autowired
+//	GheNgoiRepository gheNgoiRepository;
+//	@RequestMapping("/ghe")
+//	public String Ghe(Model model) {
+//		List<GheNgoi> gheNgois= gheNgoiRepository.gheNgoiCuaPhong();
+//		model.addAttribute("h", gheNgois);
+//		return "gheNgoi";
+//	}
 }

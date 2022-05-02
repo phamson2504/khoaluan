@@ -10,6 +10,8 @@ import com.project.khoaluan.model.NguoiDung;
 public interface NguoiDungRepository extends CrudRepository<NguoiDung, Integer> {
 	NguoiDung findByEmail(String email);
 	
+	NguoiDung findById(int id);
+	
 	NguoiDung findByTokenQuenMatKhau(String token);
 	
 	@Query("SELECT u.hoTen,u.sdt,u.email FROM NguoiDung u WHERE u.hoTen = ?1 and u.sdt = ?2")

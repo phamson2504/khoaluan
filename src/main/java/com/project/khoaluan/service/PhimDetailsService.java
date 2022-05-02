@@ -15,5 +15,7 @@ public interface PhimDetailsService {
 	public void xoaPhim(int id);
 	public List<Phim> loadPhim(LocalDate startDate);
 	public List<Phim> phimSapChieu(LocalDate startDate);
-	List<Phim> PhimsCuaRap(LocalDate startDate,int idRap,int idTl);
+	List<Phim> phimsCuaRap(LocalDate startDate,int idRap,int idTl);
+	List<Phim> phimDaChieu(LocalDate startDate,LocalDate ngayKetThuc);
+	public List<Phim> timPhim(String tenPhim);
 }

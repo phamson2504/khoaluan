@@ -1,10 +1,14 @@
 package com.project.khoaluan.model;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 public class GheNgoi {
@@ -14,6 +18,9 @@ public class GheNgoi {
     private int id;
 	private String viTriHang;
 	private int viTriCot;
+	
+	@OneToMany(mappedBy = "gheNgoi", cascade = CascadeType.ALL)
+    private List<ChiTietHoaDon> chiTHDs;
 
 	public int getId() {
 		return id;
@@ -55,10 +62,20 @@ public class GheNgoi {
 		this.viTriCot = viTriCot;
 		
 	}
+	
+
+	public GheNgoi(int id) {
+		super();
+		this.id = id;
+	}
 
 	@Override
 	public String toString() {
 		return "GheNgoi [id=" + id + ", viTriHang=" + viTriHang + ", viTriCot=" + viTriCot + "]";
 	}
+
+	
+
+	
 
 }

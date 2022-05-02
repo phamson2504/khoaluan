@@ -15,7 +15,6 @@
           <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
        
         <link href="<c:url value="/resources/css/admin.css"/>" rel="stylesheet" type="text/css">
-      	  <script type="text/javascript" src="<c:url value="/resources/js/admin.js"/>"></script>
   		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     	 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
@@ -33,11 +32,7 @@
     $(function() {
     	
  		$("#datepicker").datepicker({ 
- 			format: 'dd/mm/yyyy',
-			autoclose: true,         
-			todayHighlight: true 
-		}).datepicker();
- 		$("#datepicker2").datepicker({ 
+ 			uiLibrary: 'bootstrap4',
  			format: 'dd/mm/yyyy',
 			autoclose: true,         
 			todayHighlight: true 
@@ -64,7 +59,6 @@ $(document).on("click","#addNew",function() {
 	var idPhim = $('#idPhim').val();
 	var idTheLoai = $('#idTheLoai').find(":selected").val();
 	var ngayChieu = $('#datepicker').val();
-	var ngayKetThuc = $('#datepicker2').val();
 	var gioBatDau= $('#gioBatDau').val();
 	var giaVe= $('#giaVe').val();
 	var newdate = ngayChieu.split("/");
@@ -102,12 +96,12 @@ $(document).on("click","#addNew",function() {
                 <a href="#!" class="menu-toggle">
                     <i class="fas fa-bars"></i>
                 </a>
-                <a href="/" class="easion-logo"><i class="fa fa-home"></i> <span>Home</span></a>
+                <a href="/" class="easion-logo"><i class="fa fa-home"></i> <span>Trang Chủ</span></a>
             </header>
             <nav class="dash-nav-list">
-                <a href="" class="dash-nav-item">
-                    <i class="fa fa-desktop" aria-hidden="true"></i> Dashboard </a>
-                <a href="" class="dash-nav-item"><i class="fa fa-user" aria-hidden="true"></i> Người Dùng </a>
+                <a href="/admin/thongke" class="dash-nav-item">
+                    <i class="fa fa-desktop" aria-hidden="true"></i> Thống Kê </a>
+                <a href="/admin/nguoidung" class="dash-nav-item"><i class="fa fa-user" aria-hidden="true"></i> Người Dùng </a>
                 <a href="/admin/phim" class="dash-nav-item"> <i class="fa fa-film" aria-hidden="true"></i> Phim </a>
                 <a href="/admin/KhuVucs" class="dash-nav-item"> <i class="fa fa-th-list" aria-hidden="true"></i> Quản lý Rạp </a>
                 <a href="/admin/theLoais" class="dash-nav-item"> <i class="fa fa-th-list" aria-hidden="true"></i> Thể Loại </a>
@@ -173,7 +167,7 @@ $(document).on("click","#addNew",function() {
 					  <div class="modal-dialog" role="document">
 					    <div class="modal-content">
 					      <div class="modal-header">
-					        <h5 class="modal-title" id="exampleModalLabel">Sửa Khu Vực</h5>
+					        <h5 class="modal-title" id="exampleModalLabel">Thêm suất chiếu</h5>
 					        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					          <span aria-hidden="true">&times;</span>
 					        </button>
@@ -202,7 +196,7 @@ $(document).on("click","#addNew",function() {
 								  <div class="form-group row">
 										    <label for="formGroupExampleInput" class="col-sm-3 col-form-label">Ngày Chiếu</label>
 										    <div class="col-sm-9">
-			                         			<input id="datepicker" class="form-control" type="text" ></span>        
+			                         			<input id="datepicker" class="form-control"  type="text" ></span>        
                     					</div> 
 								    </div>
 								    

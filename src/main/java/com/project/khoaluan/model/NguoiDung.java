@@ -1,7 +1,9 @@
 package com.project.khoaluan.model;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -45,7 +48,11 @@ public class NguoiDung implements Serializable {
     )
     private Set<VaiTro> vaitros;
     
+    @OneToMany(mappedBy = "nguoiDung", cascade = CascadeType.ALL)
+    private List<HoaDon> hoaDons;
     
+    @OneToMany(mappedBy = "nguoiDung", cascade = CascadeType.ALL)
+    private List<DanhGiaPhim> dGPs;
     
    
     
