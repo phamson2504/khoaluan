@@ -105,7 +105,7 @@ $(document).on("click","#addNew",function() {
                 <a href="/admin/phim" class="dash-nav-item"> <i class="fa fa-film" aria-hidden="true"></i> Phim </a>
                 <a href="/admin/KhuVucs" class="dash-nav-item"> <i class="fa fa-th-list" aria-hidden="true"></i> Quản lý Rạp </a>
                 <a href="/admin/theLoais" class="dash-nav-item"> <i class="fa fa-th-list" aria-hidden="true"></i> Thể Loại </a>
-               <a class="dash-nav-item" href="/logout"><i class="fa fa-outdent" aria-hidden="true"></i>Logout</a>
+               <a class="dash-nav-item" href="/logout"><i class="fa fa-outdent" aria-hidden="true"></i>Đăng xuất</a>
     				
 				
                 
@@ -213,8 +213,8 @@ $(document).on("click","#addNew",function() {
 										    </div>
 								  </div>
 							      <div class="modal-footer">
-							        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-							        <button type="submit" id="addNew"class="btn btn-primary">Save changes</button>
+							        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+							        <button type="submit" id="addNew"class="btn btn-primary">Lưu</button>
 							      </div>
 					       </form>
 					    </div>

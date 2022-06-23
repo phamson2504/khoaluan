@@ -183,8 +183,6 @@
 					các
 					khuyến mãi hấp dẫn, đem đến cho khán giả những bộ phim bom tấn của thế giới và Việt Nam nhanh chóng
 					và sớm nhất.
-
-
 				</p>
 
 			</div>

@@ -57,30 +57,6 @@ public class LichPhimController {
 	NguoiDungDetailsServiceImpl nguoiDungDetailsServiceImpl;
 	@Autowired
 	DanhGiaPhimDetailsServicelmpl danhGiaPhimDetailsServicelmpl;
-//	 @GetMapping("/suat")
-//	 	
-//	    public String datve(Model model) {
-//		 ArrayList<GheNgoi> gheNgoisdachon = new ArrayList<GheNgoi>();
-//		 gheNgoisdachon.add(new GheNgoi(26));
-//		 gheNgoisdachon.add(new GheNgoi(30));
-//		 gheNgoisdachon.add(new GheNgoi(32));
-//		 List<GheNgoi> gheNgois= gheNgoiRepository.gheNgoiCuaSuat(14);
-//		 List<GheNgoiDOT> gheNgoiDOTs = new ArrayList<GheNgoiDOT>();
-//		 for (GheNgoi gheNgoi : gheNgois) {
-//			gheNgoiDOTs.add(new GheNgoiDOT(gheNgoi.getId(), gheNgoi.getViTriHang(), gheNgoi.getViTriCot(), true));
-//		}
-//		 for (GheNgoiDOT gheNgoiDOT : gheNgoiDOTs) {
-//			for (GheNgoi gheDaChon : gheNgoisdachon) {
-//				if (gheNgoiDOT.getId()==gheDaChon.getId()) {
-//					gheNgoiDOT.setDaDat(false);
-//				}
-//			}
-//		}
-//		 System.out.println(gheNgoiDOTs);
-//		
-//			model.addAttribute("h", gheNgoiDOTs);
-//	        return "datve";
-//	    }
 	
 	@GetMapping("/kTraDG")   
 	@ResponseBody
@@ -238,20 +214,4 @@ public class LichPhimController {
 	 
 	    }
 	
-	 
-	 
-//	 @GetMapping("/lichPhimSauThayDoi")   
-//	    public String lichPhimSauThayDoi(Model model,@RequestParam(value = "idPhim") int idPhim,@RequestParam(value = "idTl") int idTl,
-//	    		@RequestParam(value = "ngay") String ngay,@RequestParam(value = "idKv") int idKv) {
-//		 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-//		 LocalDate date = LocalDate.parse(ngay, formatter);
-//		 List<TheLoai> theLoais = tlDetailsServiceImpl.TheLoaiCuaPhim(idPhim, date);
-//		 List<KhuVuc> khuVucs = kvDetailsServiceImpl.KhuVucCuaPhim(idPhim, date, idTl);
-//		 List<Rap> raps = rapDetailsServiceImpl.RapCuaPhim(idPhim, date, idKv, idTl);
-//		 List<ChiTietSuat> suatChieus = suatChieuDetailsServiceImpl.SuatChieuCuaPhim(idPhim, date,idKv, idTl);
-//		 model.addAttribute("tl",theLoais);
-//		 model.addAttribute("kv",khuVucs);
-//		 model.addAttribute("n",ngay);
-//	        return "lichPhim";
-//	    }
 }

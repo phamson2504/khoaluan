@@ -29,12 +29,25 @@
         <title>Thanh Toán</title>
     </head>
     <script type="text/javascript">
-    $(document).on("click","#btnThanhToan",function(e){
-    	localStorage.setItem('gheNgoi', "");
-	  	localStorage.setItem('idSuat', "");
-	  	localStorage.setItem('gia', '');
-	  	localStorage.setItem('tenGhe','');
-    })
+   
+     $(document).ready(function () {
+    	 $('#htThanhToan').on('change', function() {
+    		 let htTT = $('#htThanhToan').find(":selected").val();
+    		 if(htTT==1){
+    			 document.getElementById("btnThanhToan").remove()
+    			 $("#phuongThuc").append(`<button type="submit" id="btnThanhToan" class="btn btn-success" style="margin-left: 100px; width: 200px;">Thanh Toán</button>`);
+    		 }else{
+    			 document.getElementById("btnThanhToan").remove()
+    			 $("#phuongThuc").append(`<a href="/chonve/thanhToan" id="btnThanhToan" class="btn btn-success" style="margin-left: 100px; width: 200px;">Thanh Toán</a>`);
+    		 }
+    	 })
+    	  $(document).on("click","#btnThanhToan",function(e){
+	    	localStorage.setItem('gheNgoi', "");
+		  	localStorage.setItem('idSuat', "");
+		  	localStorage.setItem('gia', '');
+		  	localStorage.setItem('tenGhe','');
+    	})
+     })
     </script>
     <body>
      <div style="background-color: rgba(243, 217, 232, 0.3); min-width: 100%; height: 890px; ">
@@ -112,16 +125,25 @@
                     Thông Tin Thanh Toán
                   </div>
                   <div class="card-body">
-                  <c:url value="/chonve/pay" var="payUrl"/>
-                    <form:form action="${payUrl}" method="post">
+                  
+                  <c:url  value="/chonve/pay" var="payUrl"/>
+                    <form:form  id="htTTurl"  action="${payUrl}" method="post">
                       <div class="form-group">
                         <label for="exampleInputEmail1" style="font-weight: bold;">Hình Thức Thanh Toán</label>
-                        <select class="form-control" id="exampleFormControlSelect1">
-      
-                          <option>Paypal</option>
-            
-                         
-                        </select>
+                        <c:choose>
+							<c:when test="${sessionScope.role==2}">
+								<select id="htThanhToan" class="form-control" id="exampleFormControlSelect1">
+						                          <option value="1" selected>Paypal</option> 
+						                          <option value="2">Thanh toán bằng tiền mặt</option> 
+						                </select>
+							</c:when>    
+							<c:otherwise>
+								<select class="form-control" id="exampleFormControlSelect1">
+						                          <option>Paypal</option>
+									   
+						                </select>					       
+							</c:otherwise>
+						</c:choose> 
                       </div>
 
 
@@ -148,11 +170,13 @@
                         ${gia}
                         <input type="hidden" class="form-control"  name="price" placeholder="Nhập số điện thoại..." value="${gia}" readonly="readonly">
                       </div>
-
+						<div id="phuongThuc">
                       <a  href="/chonve/suat?id=${idSuat}" class="btn btn-warning" style="margin-left: 200px; width: 200px;">Quay lại</a>
                      
-							
+						
 						<button type="submit" id="btnThanhToan" class="btn btn-success" style="margin-left: 100px; width: 200px;">Thanh Toán</button>
+						</div>
+						
 					
                     
                     </form:form>

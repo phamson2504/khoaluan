@@ -35,7 +35,7 @@ public class SuatChieu {
     @JoinColumn(name = "the_loai_id")
 	private TheLoai theloai;
 	
-	@OneToMany(mappedBy = "suatChieu", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "suatChieu",cascade = CascadeType.ALL)
     private List<ChiTietHoaDon> chiTHDs;
 	
 	

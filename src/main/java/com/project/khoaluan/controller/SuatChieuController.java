@@ -51,11 +51,6 @@ public class SuatChieuController {
 		public String suatTheoPhim (Model model,@RequestParam("idPhim") int idPhim) {
 			List<ChiTietSuat> list =  suatChieuDetailsServiceImpl.chiTietSuatTheoPhim(idPhim);
 			List<TheLoai> theLoais = theLoaiDetailsServiceImpl.getTheLoais();
-			List<Integer> listId=new ArrayList<Integer>();
-			for (ChiTietSuat ct : list) {
-				listId.add(ct.getId());
-			}
-			model.addAttribute("id", listId);
 			model.addAttribute("sc", list);
 			model.addAttribute("idPhim", idPhim);
 			model.addAttribute("tl", theLoais);

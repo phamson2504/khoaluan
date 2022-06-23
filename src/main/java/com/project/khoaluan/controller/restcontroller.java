@@ -67,6 +67,10 @@ public class restcontroller {
 	 public	NguoiDung GheNgoi() {
 			return  ndDetailsServiceImpl.findbyid(3);
 	    }
+	@RequestMapping("/tc") 
+	 public	String DNTC() {
+			return  "Dang nhap Thanh cong";
+	    }
 	@RequestMapping("/suaHoaDon")   
     public SuatChieu xoaSuat() {
 		SuatChieu suatChieu = suatChieuRepository.findById(35);

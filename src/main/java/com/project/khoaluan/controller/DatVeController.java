@@ -197,6 +197,8 @@ public class DatVeController {
 			String cancelUrl = Utils.getBaseURL(request) + "/" + URL_PAYPAL_CANCEL;
 			String successUrl = Utils.getBaseURL(request) + "/" + URL_PAYPAL_SUCCESS;
 			session.setAttribute("gia", price);
+			int idSuat =  (int) session.getAttribute("idSuat");
+			String tenphim=suatChieuDetailsServiceImpl.ChiTietSuatChieu(idSuat).getTenPhim();
 			price = (double) Math.floor((price/23000) * 10) / 10;
 			
 			try {
@@ -205,7 +207,7 @@ public class DatVeController {
 						"USD",
 						PaypalPaymentMethod.paypal,
 						PaypalPaymentIntent.sale,
-						"payment description",
+						tenphim,
 						cancelUrl,
 						successUrl);
 				for(Links links : payment.getLinks()){
@@ -220,7 +222,7 @@ public class DatVeController {
 		}
 		@GetMapping("/pay/cancel")
 		public String cancelPay(){
-			return "cancel";
+			return "redirect:/";
 		}
 		@GetMapping("/pay/success")
 		public String successPay(@RequestParam("paymentId") String paymentId, @RequestParam("PayerID") String payerId){
